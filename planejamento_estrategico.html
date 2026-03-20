@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriTrack Pro — Planejamento Estratégico de Lançamento</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --g500:#22C55E;--g600:#16A34A;--g700:#15803D;--g800:#166534;--g900:#14532D;
+  --g50:#F0FDF4;--g100:#DCFCE7;--g200:#BBF7D0;--g300:#86EFAC;--g400:#4ADE80;
+  --b500:#3B82F6;--b600:#2563EB;--b100:#DBEAFE;--b50:#EFF6FF;--b900:#1E3A8A;
+  --o500:#F97316;--o600:#EA580C;--o100:#FFEDD5;--o50:#FFF7ED;--o900:#7C2D12;
+  --p500:#8B5CF6;--p600:#7C3AED;--p100:#EDE9FE;--p50:#FAF5FF;--p900:#4C1D95;
+  --ink:#0C120C;--ink70:rgba(12,18,12,.7);--ink40:rgba(12,18,12,.4);--ink12:rgba(12,18,12,.08);
+  --white:#fff;--cream:#F6FAF6;
+  --ds1:#082918;--ds2:#071B3D;--ds3:#2A1200;--ds4:#140A26;
+  --display:'Outfit',sans-serif;--body:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--cream);color:var(--ink);font-size:16.2px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+.cover{background:#0A160A;min-height:auto;display:grid;grid-template-rows:auto 1fr auto;padding:44px 60px 36px;position:relative;overflow:hidden}
+.cover-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 75% 15%,rgba(34,197,94,.22) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 10% 80%,rgba(34,197,94,.1) 0%,transparent 55%)}
+.cover-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(34,197,94,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.04) 1px,transparent 1px);background-size:52px 52px}
+.cover>*{position:relative;z-index:1}
+.cover-top{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.logo-w{display:flex;align-items:center;gap:12px}
+.logo-img{width:46px;height:46px;border-radius:12px;object-fit:cover;flex-shrink:0}
+.logo-nm{font-family:var(--display);font-weight:800;font-size:24px;color:#fff;letter-spacing:-.02em}
+.logo-nm span{color:var(--g300)}
+.cover-badge{display:none}
+.cover-body{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:50px 0 40px}
+.cover-lbl{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--g400);margin-bottom:16px}
+.cover-h1{font-family:var(--display);font-weight:800;font-size:clamp(16px,4.2vw,60px);line-height:1.1;color:#fff;letter-spacing:-.02em;margin-bottom:20px;white-space:nowrap;width:100%}
+.cover-h1 em{font-style:normal;color:var(--g300)}
+.cover-desc{font-size:clamp(10px,1.6vw,18px);line-height:1.6;color:rgba(255,255,255,.9);max-width:100%;font-weight:400;white-space:nowrap;width:100%}
+.cover-bot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding-top:32px;border-top:none}
+.cover-date{font-size:13.2px;color:rgba(255,255,255,.25)}
+.cover-nav{display:flex;gap:28px}
+.cover-nav a{font-size:15.6px;font-weight:800;color:#ffffff;text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;padding:6px 0;border-bottom:2px solid rgba(255,255,255,.3);opacity:.95}
+.cover-nav a:hover{color:var(--g300);border-bottom-color:var(--g300);opacity:1}
+
+#pw{position:fixed;bottom:24px;right:24px;z-index:9999;background:#fff;border:1px solid var(--ink12);border-radius:18px;padding:18px 20px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.12);transition:transform .3s}
+#pw.pw-mini{width:54px;height:54px;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden}
+#pw.pw-mini #pw-body{display:none}
+#pw.pw-mini #pw-toggle-btn{display:flex}
+#pw-toggle-btn{display:none;align-items:center;justify-content:center;width:100%;height:100%}
+.pw-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.pw-title{font-family:var(--display);font-size:13.2px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink40)}
+.pw-toggle{background:none;border:none;cursor:pointer;padding:2px;color:var(--ink40);font-size:19.2px;line-height:1}
+.pw-overall{margin-bottom:14px}
+.pw-pct-row{display:flex;align-items:baseline;gap:6px;margin-bottom:6px}
+.pw-pct{font-family:var(--display);font-weight:800;font-size:33.6px;color:var(--ink);letter-spacing:-.03em;line-height:1}
+.pw-of{font-size:14.4px;color:var(--ink40)}
+.pw-bar-track{height:6px;background:var(--g100);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.pw-bar-fill{height:100%;background:var(--g500);border-radius:3px;transition:width .4s ease}
+.pw-total-lbl{font-size:13.2px;color:var(--ink40)}
+.pw-secs{display:flex;flex-direction:column;gap:8px}
+.pw-sec{display:flex;align-items:center;gap:8px}
+.pw-sec-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pw-sec-name{font-size:13.2px;color:var(--ink70);flex:1;font-weight:500}
+.pw-sec-nums{font-family:var(--display);font-size:13.2px;font-weight:700;color:var(--ink)}
+.pw-sec-track{height:3px;background:var(--ink12);border-radius:2px;overflow:hidden;flex-shrink:0;width:40px}
+.pw-sec-fill{height:100%;border-radius:2px;transition:width .3s}
+
+.pg{max-width:1440px;margin:0 auto;padding:0 48px}
+.sh{display:flex;gap:0;padding:72px 0 44px;border-bottom:1px solid var(--ink12);margin-bottom:52px}
+.sh-bar{width:4px;border-radius:4px;flex-shrink:0;margin-right:24px}
+.sh-s1 .sh-bar{background:var(--g500)}.sh-s2 .sh-bar{background:var(--b500)}
+.sh-s3 .sh-bar{background:var(--o500)}.sh-s4 .sh-bar{background:var(--p500)}
+.sh-inner{flex:1}
+.sh-tag{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+.sh-s1 .sh-tag{color:var(--g600)}.sh-s2 .sh-tag{color:var(--b600)}
+.sh-s3 .sh-tag{color:var(--o600)}.sh-s4 .sh-tag{color:var(--p600)}
+.sh-title{font-family:var(--display);font-weight:800;font-size:clamp(34px,3.8vw,53px);line-height:1.1;color:var(--ink);letter-spacing:-.03em;margin-bottom:12px}
+.sh-title em{font-style:normal}
+.sh-s1 .sh-title em{color:var(--g700)}.sh-s2 .sh-title em{color:var(--b600)}
+.sh-s3 .sh-title em{color:var(--o600)}.sh-s4 .sh-title em{color:var(--p600)}
+.sh-sub{font-size:16.8px;color:var(--ink70);line-height:1.65;max-width:600px}
+.sh-num{font-family:var(--display);font-weight:800;font-size:86.4px;color:var(--ink12);letter-spacing:-.04em;line-height:1;align-self:flex-end;margin-left:auto;padding-bottom:4px;user-select:none}
+.sh-prog{display:flex;align-items:center;gap:10px;margin-top:12px}
+.sh-prog-bar{flex:1;height:4px;background:var(--ink12);border-radius:2px;overflow:hidden;max-width:200px}
+.sh-prog-fill{height:100%;border-radius:2px;transition:width .4s}
+.sh-s3 .sh-prog-fill{background:var(--o500)}.sh-s4 .sh-prog-fill{background:var(--p500)}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.g2eq{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.g32{display:grid;grid-template-columns:3fr 2fr;gap:28px}
+.g-funnel{display:grid;grid-template-columns:0.85fr 1.15fr;gap:20px}
+
+.card{background:var(--white);border:1px solid var(--ink12);border-radius:16px;padding:26px}
+.card-lbl{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;color:var(--ink40)}
+
+.sc{background:var(--white);border:1px solid var(--ink12);border-radius:14px;padding:20px 22px}
+.sc-n{font-family:var(--display);font-weight:800;font-size:40.8px;letter-spacing:-.03em;color:var(--ink);line-height:1;margin-bottom:4px}
+.sc-l{font-size:14.4px;color:var(--ink70);font-weight:500}
+.sc-s{font-size:13.2px;font-weight:700;margin-top:4px;color:var(--g700)}
+
+.ic{background:var(--white);border:1px solid var(--ink12);border-radius:16px;padding:22px}
+.ic-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;margin-bottom:12px}
+.ib-g{background:var(--g100)}.ib-b{background:var(--b100)}.ib-o{background:var(--o100)}.ib-p{background:var(--p100)}
+.ib-t{background:#CCFBF1}.ib-r{background:#FFE4E6}.ib-a{background:#FEF3C7}.ib-sl{background:#F1F5F9}
+.ic-title{font-family:var(--display);font-weight:700;font-size:15.6px;color:var(--ink);margin-bottom:5px;letter-spacing:-.01em}
+.ic-body{font-size:14.4px;color:var(--ink70);line-height:1.55}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 11px;border-radius:20px;white-space:nowrap}
+.p-g{background:var(--g100);color:var(--g800)}.p-dk{background:var(--ink);color:#fff}
+.p-out{background:transparent;border:1px solid var(--ink40);color:var(--ink70)}
+.p-b{background:var(--b100);color:var(--b900)}.p-o{background:var(--o100);color:var(--o900)}
+.p-p{background:var(--p100);color:var(--p900)}.p-a{background:#FEF3C7;color:#92400E}
+
+/* Info list (static, no checkboxes) */
+.info{list-style:none;display:flex;flex-direction:column;gap:2px}
+.il{font-size:15.6px;color:var(--ink70);line-height:1.55;padding:7px 10px 7px 28px;position:relative;border-radius:8px}
+.il::before{content:'';position:absolute;left:10px;top:13px;width:6px;height:6px;border-radius:50%;background:var(--g400)}
+.il strong{color:var(--ink);font-weight:600}
+.il-b::before{background:var(--b500)}
+.il-r::before{background:#EF4444}
+
+/* Interactive checklist (execution only) */
+.cl{list-style:none;display:flex;flex-direction:column;gap:0}
+.ci{display:flex;align-items:flex-start;gap:10px;font-size:15.6px;color:var(--ink70);line-height:1.5;padding:8px 10px;border-radius:10px;cursor:pointer;transition:background .15s;user-select:none;border:1px solid transparent}
+.ci:hover{background:var(--g50);border-color:rgba(34,197,94,.15)}
+.ci.done{color:var(--ink40)}
+.ci.done .ci-text{text-decoration:line-through;opacity:.6}
+.ci-box{width:18px;height:18px;border-radius:50%;border:2px solid rgba(34,197,94,.4);background:transparent;flex-shrink:0;margin-top:1px;display:grid;place-items:center;transition:all .2s}
+.ci.done .ci-box{background:var(--g500);border-color:var(--g500)}
+.ci.done .ci-box::after{content:'✓';color:white;font-size:12px;font-weight:700;line-height:1}
+.ci .ci-text strong{color:var(--ink);font-weight:600}
+
+.bq{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.6vw,31px);line-height:1.3;color:var(--ink);letter-spacing:-.02em}
+.bq em{font-style:normal;color:var(--g700)}
+
+.hl{border-left:3px solid var(--g500);background:var(--g50);padding:13px 17px;border-radius:0 12px 12px 0;margin:14px 0}
+.hl p{font-size:16.2px;font-weight:500;color:var(--g900);line-height:1.6}
+.hl-b{border-color:var(--b500);background:var(--b50)}.hl-b p{color:var(--b900)}
+.hl-o{border-color:var(--o500);background:var(--o50)}.hl-o p{color:var(--o900)}
+.hl-dk{border-left:3px solid var(--g500);background:var(--g50);padding:13px 17px;border-radius:0 12px 12px 0;margin:14px 0}
+.hl-dk p{color:var(--g900);font-size:16.8px;font-weight:500;line-height:1.6}
+
+.tw{border-radius:14px;overflow:hidden;border:1px solid var(--ink12);background:#fff}
+table{width:100%;border-collapse:collapse}
+th{background:var(--g700);color:#fff;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:11px 16px;text-align:left}
+#embaixadores th{background:var(--b600)}
+#lancamento th{background:var(--o600)}
+#timeline th{background:var(--p600)}
+#timeline td:nth-child(2){white-space:nowrap}
+td{padding:11px 16px;font-size:18px;color:var(--ink70);border-bottom:1px solid var(--ink12);vertical-align:top;background:#fff}
+tr:last-child td{border-bottom:none}
+td strong{color:var(--ink);font-weight:600}
+.tr-week{cursor:pointer;transition:background .15s}
+.tr-week:hover td{background:#f0fdf4!important}
+.tr-week.week-done td{background:#f0fdf4!important;color:var(--ink40)!important}
+.tr-week.week-done td strong{color:var(--g700)!important}
+.tr-launch td{background:var(--g50)!important}
+.tr-launch.week-done td{background:var(--g100)!important}
+.week-cb{width:18px;height:18px;border-radius:50%;border:2px solid rgba(34,197,94,.4);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.week-done .week-cb{background:var(--g500);border-color:var(--g500)}
+.week-done .week-cb::after{content:'✓';color:white;font-size:12px;font-weight:700}
+
+/* Vibrant card backgrounds (replacing dark) */
+.vcard-g{background:#fff;border:1px solid var(--ink12);border-radius:16px;padding:26px}
+.vcard-b{background:linear-gradient(135deg,var(--b50),var(--b100));border:1px solid rgba(59,130,246,.18);border-radius:16px;padding:26px}
+.vcard-o{background:linear-gradient(135deg,var(--o50),var(--o100));border:1px solid rgba(249,115,22,.18);border-radius:16px;padding:26px}
+.vcard-p{background:linear-gradient(135deg,var(--p50),var(--p100));border:1px solid rgba(139,92,246,.18);border-radius:16px;padding:26px}
+
+.tr-rw{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--cream);border-radius:10px;border:1px solid var(--ink12)}
+.tr-fr{font-size:14.4px;color:var(--ink70);min-width:128px}
+.tr-ar{color:var(--g500);font-size:15.6px;font-weight:700}
+.tr-to{font-size:15px;font-weight:700;color:var(--ink)}
+
+.fnl{display:flex;flex-direction:column;gap:3px}
+.fn{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:var(--cream);border:1px solid var(--ink12)}
+.fn.fn-on{background:var(--b500);border-color:transparent}
+.fn-n{font-family:var(--display);font-size:13.2px;font-weight:800;color:var(--b600);min-width:20px}
+.fn.fn-on .fn-n{color:rgba(255,255,255,.7)}
+.fn-l{font-size:15.6px;font-weight:600;color:var(--ink)}
+.fn.fn-on .fn-l{color:#fff}
+.fn-s{font-size:13.2px;color:var(--ink40);margin-left:auto}
+.fn.fn-on .fn-s{color:rgba(255,255,255,.65)}
+.fn-arr{text-align:center;font-size:14.4px;color:var(--b500);padding:0 14px;font-weight:700}
+
+.tl{position:relative;padding-left:30px;display:flex;flex-direction:column}
+.tl::before{content:'';position:absolute;left:6px;top:10px;bottom:10px;width:2px;background:linear-gradient(to bottom,var(--g500),rgba(34,197,94,.1))}
+.tl-it{position:relative;padding-bottom:28px}.tl-it:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-27px;top:3px;width:14px;height:14px;border-radius:50%;border:2px solid var(--g500);background:var(--white)}
+.tl-dot.f{background:var(--g500)}
+.tl-per{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g700);margin-bottom:3px}
+.tl-nm{font-family:var(--display);font-weight:700;font-size:20.4px;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em}
+.tl-desc{font-size:15px;color:var(--ink70);line-height:1.6}
+
+.tier{border-radius:16px;padding:22px;border:2px solid transparent}
+.tier-a{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:rgba(34,197,94,.3)}
+.tier-b{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-color:rgba(59,130,246,.25)}
+.tier-c{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-color:rgba(245,158,11,.25)}
+.tier-d{background:linear-gradient(135deg,#fdf4ff,#ede9fe);border-color:rgba(139,92,246,.2)}
+.tier-badge{display:inline-block;font-family:var(--display);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.tier-a .tier-badge{background:var(--g500);color:#fff}
+.tier-b .tier-badge{background:var(--b500);color:#fff}
+.tier-c .tier-badge{background:#F59E0B;color:#fff}
+.tier-d .tier-badge{background:var(--p500);color:#fff}
+.tier-title{font-family:var(--display);font-weight:700;font-size:19.2px;color:var(--ink);margin-bottom:7px;letter-spacing:-.01em}
+.tier-seg{font-size:14.4px;color:var(--ink70);margin-bottom:10px;line-height:1.5}
+.tier-f{font-family:var(--display);font-size:15.6px;font-weight:700}
+.tier-a .tier-f{color:var(--g700)}.tier-b .tier-f{color:#1D4ED8}
+.tier-c .tier-f{color:#B45309}.tier-d .tier-f{color:#6D28D9}
+
+.sb{border-radius:14px;padding:24px;position:relative;overflow:hidden;border-left:3px solid transparent}
+.sb-s1{background:linear-gradient(135deg,var(--b50),#E8F1FE);border-left-color:var(--b500)}
+.sb-s2{background:linear-gradient(135deg,var(--b50),#E8F1FE);border-left-color:var(--b500)}
+.sb-s3{background:linear-gradient(135deg,var(--b50),#E8F1FE);border-left-color:var(--b500)}
+.sb p{font-size:16.2px;line-height:1.75;color:var(--ink70)}
+.sb p strong{color:var(--b600);font-weight:600}
+.sb-s2 p strong{color:var(--b600)}
+.sb-s3 p strong{color:var(--b600)}
+
+.ph{border-radius:18px;overflow:hidden;border:1px solid var(--ink12);margin-bottom:22px}
+.ph-hd{padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.ph-hd1{background:linear-gradient(120deg,var(--ink),#1E293B)}
+.ph-hd2{background:linear-gradient(120deg,var(--ink),#1E293B)}
+.ph-hd3{background:linear-gradient(120deg,var(--ink),#1E293B)}
+.ph-hd4{background:linear-gradient(120deg,var(--ink),#1E293B)}
+.ph-num{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:2px}
+.ph-title{font-family:var(--display);font-weight:700;font-size:25.2px;color:#fff;letter-spacing:-.02em}
+.ph-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.ph-period{font-family:var(--display);font-size:14.4px;font-weight:600;color:rgba(255,255,255,.55);white-space:nowrap}
+.ph-pbar{width:120px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+.ph-pbar-fill{height:100%;border-radius:2px;background:var(--o500);transition:width .4s}
+.ph-pct{font-family:var(--display);font-size:12px;font-weight:700;color:rgba(255,255,255,.5)}
+.ph-body{background:#fff;padding:24px 28px}
+.ph-body>p{font-size:15.6px;color:var(--ink70);margin-bottom:18px;line-height:1.65}
+.ph-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ph-grp h4{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--o100);color:var(--o600)}
+.ph-hd2~.ph-body .ph-grp h4{color:var(--o600);border-bottom-color:var(--o100)}
+.ph-hd3~.ph-body .ph-grp h4{color:var(--o600);border-bottom-color:var(--o100)}
+
+.lseq{display:flex;border-radius:14px;overflow:hidden;border:1px solid var(--ink12)}
+.ls{flex:1;padding:18px 16px;border-right:1px solid var(--ink12);display:flex;flex-direction:column;gap:5px;cursor:pointer;transition:background .15s}
+.ls:last-child{border-right:none}
+.ls:hover{background:var(--o50)}
+.ls.active{background:var(--o500)}
+.ls.ls-done{background:var(--o100)}
+.ls-day{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink40)}
+.ls.active .ls-day{color:rgba(255,255,255,.65)}
+.ls.ls-done .ls-day{color:var(--o800)}
+.ls-action{font-family:var(--display);font-size:15.6px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.ls.active .ls-action{color:#fff}
+.ls.ls-done .ls-action{color:var(--o800)}
+.ls-detail{font-size:13.2px;color:var(--ink40);line-height:1.4}
+.ls.active .ls-detail{color:rgba(255,255,255,.6)}
+.ls.ls-done .ls-detail{color:var(--o700)}
+
+.mr{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--ink12)}
+.mr:last-child{border-bottom:none}
+.mr-l{font-size:15.6px;color:var(--ink70)}
+.mr-v{font-family:var(--display);font-size:16.8px;font-weight:700;color:var(--ink)}
+.mr-n{font-size:13.2px;font-weight:700;color:var(--g600)}
+
+.cbr{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--ink12)}
+.cbr:last-child{border-bottom:none}
+.cbr-l{font-size:15.6px;color:var(--ink70);min-width:170px}
+.cbr-t{flex:1;height:6px;border-radius:3px;background:var(--g100);overflow:hidden}
+.cbr-f{height:100%;border-radius:3px;background:var(--g500)}
+.cbr-p{font-family:var(--display);font-size:15.6px;font-weight:700;color:var(--ink);min-width:36px;text-align:right}
+
+.ff{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;justify-content:center}
+.ffs{text-align:center;padding:14px 16px;border-radius:12px;min-width:105px;flex-shrink:0}
+.ffs-gn{background:var(--o500)}
+.ffs-lt{background:var(--cream);border:1px solid var(--ink12)}
+.ffs-dk{background:var(--o600)}
+.ffs-pre{font-size:13.2px;color:var(--ink40);margin-bottom:3px}
+.ffs-dk .ffs-pre,.ffs-gn .ffs-pre{color:rgba(255,255,255,.75)}
+.ffs-m{font-family:var(--display);font-size:15.6px;font-weight:700;color:var(--ink)}
+.ffs-dk .ffs-m,.ffs-gn .ffs-m{color:#fff}
+.ff-arr{color:var(--o500);font-size:19.2px;font-weight:700;padding:0 2px;flex-shrink:0}
+
+.offer-card{border-radius:14px;padding:22px;border-left:3px solid}
+.oc-g{background:linear-gradient(135deg,var(--g50),var(--g100));border-color:var(--g500)}
+.oc-b{background:linear-gradient(135deg,var(--b50),var(--b100));border-color:var(--b500)}
+.oc-o{background:linear-gradient(135deg,var(--o50),var(--o100));border-color:var(--o500)}
+.oc-p{background:linear-gradient(135deg,var(--p50),var(--p100));border-color:var(--p500)}
+.oc-icon{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;margin-bottom:10px}
+.oc-g .oc-icon{background:rgba(34,197,94,.15)}
+.oc-b .oc-icon{background:rgba(59,130,246,.15)}
+.oc-o .oc-icon{background:rgba(249,115,22,.15)}
+.oc-p .oc-icon{background:rgba(139,92,246,.15)}
+.oc-label{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;color:var(--ink40)}
+.oc-title{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.02em;margin-bottom:6px}
+.oc-g .oc-title{color:var(--b600)}.oc-b .oc-title{color:var(--b600)}
+.oc-o .oc-title{color:var(--b600)}.oc-p .oc-title{color:var(--b600)}
+.oc-body{font-size:14.4px;color:var(--ink70);line-height:1.5}
+
+.prog-pos{background:linear-gradient(135deg,var(--b50),var(--b100));border-radius:16px;padding:26px;border-left:3px solid var(--b500)}
+.prog-pos .card-lbl{color:var(--ink40)}
+.prog-pos-title{font-family:var(--display);font-weight:700;font-size:22.8px;color:var(--ink);letter-spacing:-.02em;margin-bottom:10px}
+.prog-pos-body{font-size:15.6px;color:var(--ink70);line-height:1.65}
+.prog-pos-body strong{color:var(--b600);font-weight:600}
+
+.plan{border-radius:16px;padding:24px;border:1px solid var(--ink12);background:#fff}
+.plan-free{border-top:3px solid #94A3B8}
+.plan-pro{border-top:3px solid var(--g500)}
+.plan-elite{border-top:3px solid var(--g800);background:linear-gradient(135deg,var(--g50),var(--g100))}
+
+.concl{padding:40px;border-radius:4px 18px 18px 4px;border-left:4px solid var(--g500);background:var(--ds1)}
+
+.lt-no{border-top:3px solid #EF4444;opacity:.7}
+.lt-warn{border-top:3px solid #F59E0B;opacity:.8}
+.lt-yes{background:var(--g500);border-color:transparent}
+.lt-yes .lt-title,.lt-yes .lt-body{color:rgba(255,255,255,.9)!important}
+
+.lbl{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink40);display:block;margin-bottom:14px}
+.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}.mb20{margin-bottom:20px}
+.mb24{margin-bottom:24px}.mb32{margin-bottom:32px}.mb40{margin-bottom:40px}.mb52{margin-bottom:52px}
+.mt12{margin-top:12px}.mt16{margin-top:16px}.mt20{margin-top:20px}.mt24{margin-top:24px}
+
+.wf-wrap { display: flex; align-items: flex-start; gap: 40px; margin-bottom: 60px; margin-top:20px }
+.wf-left { width: 340px; flex-shrink: 0; position: sticky; top: 40px; }
+.wf-left-title { font-family: var(--display); font-size:45.6px; font-weight: 800; color: var(--b600); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 12px; }
+.wf-left-desc { font-family: var(--display); font-size:13.2px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink40); line-height: 1.5; }
+
+.wf-main { flex: 1; position: relative; padding: 0 0 20px 0; }
+.wf-main::before { content: ''; position: absolute; left: 50%; top: 40px; bottom: 40px; border-left: 2px dashed rgba(59,130,246,0.25); transform: translateX(-50%); }
+
+.wf-step { position: relative; width: calc(50% - 30px); background: #fff; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); padding: 24px; border: 1px solid var(--ink12); margin-top: -60px; }
+.wf-step:first-child { margin-top: 0; }
+.wf-step:last-child { margin-bottom: 0; }
+
+.wf-step:nth-child(odd) { margin-right: auto; }
+.wf-step:nth-child(even) { margin-left: auto; }
+
+.wf-step::before { content: ''; position: absolute; top: 38px; width: 30px; border-top: 2px dashed rgba(59,130,246,0.25); }
+.wf-step:nth-child(odd)::before { right: -30px; }
+.wf-step:nth-child(even)::before { left: -30px; }
+
+.wf-step::after { content: ''; position: absolute; top: 34px; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid var(--b500); }
+.wf-step:nth-child(odd)::after { right: -36px; }
+.wf-step:nth-child(even)::after { left: -36px; }
+
+.wf-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.wf-num { font-family: var(--display); font-size:19.2px; font-weight: 700; color: var(--ink); }
+.wf-icon { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; }
+
+.wf-stitle { font-family: var(--display); font-size:21.6px; font-weight: 800; color: var(--ink); margin-bottom: 12px; letter-spacing: -0.02em; }
+
+.footer{background:var(--ds1);padding:36px 60px;display:flex;align-items:center;justify-content:space-between;margin-top:80px}
+.footer-t{font-size:14.4px;color:rgba(255,255,255,.3)}
+.footer-n{font-size:13.2px;color:rgba(255,255,255,.2);margin-top:3px}
+
+[data-section]{scroll-margin-top:20px}
+
+@media (max-width: 900px) {
+  .pg { padding: 0 24px; }
+  .cover { padding: 32px 24px; }
+  .g4, .g3, .g2, .g2eq, .g32, .g-funnel, .ph-cols { grid-template-columns: 1fr; }
+  .cover-top, .cover-bot, .ph-hd { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .cover-nav { flex-wrap: wrap; gap: 16px; }
+  .footer { flex-direction: column; align-items: flex-start; gap: 20px; padding: 32px 24px; margin-top: 40px; }
+  .sh { flex-direction: column; padding: 40px 0 20px; margin-bottom: 30px; }
+  .sh-bar { width: 60px; height: 6px; margin: 0 0 16px 0; }
+  .sh-num { margin: 16px 0 0 0; font-size: 50px; align-self: flex-start; }
+  .wf-wrap { flex-direction: column; gap: 0; }
+  .wf-left { width: 100%; position: static; }
+  .wf-main { padding-top: 0; margin-top: 20px; width: 100%; }
+  .wf-main::before { left: 24px; top: 0; bottom: 0; transform: none; }
+  .wf-step { width: calc(100% - 60px) !important; margin-left: 60px !important; margin-right: 0 !important; margin-top: 0 !important; margin-bottom: 30px !important; }
+  .wf-step::before { left: -60px !important; right: auto !important; width: 60px !important; }
+  .wf-step::after { left: -67px !important; right: auto !important; top: 32px !important; }
+  .tw { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 800px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS WIDGET -->
+<div id="pw">
+  <div id="pw-toggle-btn" onclick="expandPW()"><img src="nutritrack_logo.png" alt="NT" style="width:28px;height:28px;border-radius:8px"></div>
+  <div id="pw-body">
+    <div class="pw-head">
+      <span class="pw-title">Execução</span>
+      <button class="pw-toggle" onclick="minimizePW()" title="Minimizar">−</button>
+    </div>
+    <div class="pw-overall">
+      <div class="pw-pct-row"><span class="pw-pct" id="pw-total-pct">0%</span><span class="pw-of">concluído</span></div>
+      <div class="pw-bar-track"><div class="pw-bar-fill" id="pw-bar" style="width:0%"></div></div>
+      <div class="pw-total-lbl" id="pw-total-ct">0 / 0 itens</div>
+    </div>
+    <div class="pw-secs" id="pw-secs">
+      <div class="pw-sec"><div class="pw-sec-dot" style="background:#F97316"></div><span class="pw-sec-name">Lançamento</span><span class="pw-sec-nums" id="pw-s3-ct">0/0</span><div class="pw-sec-track"><div class="pw-sec-fill" id="pw-s3-bar" style="width:0%;background:#F97316"></div></div></div>
+      <div class="pw-sec"><div class="pw-sec-dot" style="background:#8B5CF6"></div><span class="pw-sec-name">Cronograma</span><span class="pw-sec-nums" id="pw-s4-ct">0/0</span><div class="pw-sec-track"><div class="pw-sec-fill" id="pw-s4-bar" style="width:0%;background:#8B5CF6"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-bg"></div><div class="cover-grid"></div>
+  <div class="cover-top">
+    <div class="logo-w">
+      <img src="nutritrack_logo.png" alt="NutriTrack Pro" class="logo-img">
+      <div class="logo-nm">NutriTrack <span>Pro</span></div>
+    </div>
+    <div class="cover-badge">Documento de Execução · Uso Interno</div>
+  </div>
+  <div class="cover-body">
+    <div class="cover-lbl">Documento de Execução · 2026</div>
+    <h1 class="cover-h1">Planejamento Estratégico de <em>Lançamento</em></h1>
+    <p class="cover-desc">Briefing do produto, estratégia de embaixadores e plano de lançamento integrado para o NutriTrack Pro.</p>
+  </div>
+  <div class="cover-bot">
+    <span class="cover-date">NutriTrack Pro · Planejamento Estratégico Integrado · Março 2026</span>
+    <nav class="cover-nav">
+      <a href="#briefing">1. Briefing</a>
+      <a href="#embaixadores">2. Embaixadores</a>
+      <a href="#lancamento">3. Lançamento</a>
+      <a href="#timeline">4. Cronograma</a>
+    </nav>
+  </div>
+</div>
+
+<!-- SECTION 01 — BRIEFING -->
+<div class="pg" id="briefing" data-section="s1">
+  <div class="sh sh-s1">
+    <div class="sh-bar"></div>
+    <div class="sh-inner">
+      <div class="sh-tag">01 · Briefing Estratégico do Produto</div>
+      <h2 class="sh-title">O produto, a proposta<br>e <em>quem vai comprar.</em></h2>
+      <p class="sh-sub">Entendimento completo do NutriTrack Pro — o que ele é, o que resolve, quem ele atende e como deve ser posicionado no mercado.</p>
+    </div>
+    <div class="sh-num">01</div>
+  </div>
+
+  <div class="g32 mb40">
+    <div>
+      <span class="lbl">Resumo executivo</span>
+      <p class="bq mb16">Um app de nutrição com IA que transforma o acompanhamento alimentar em uma experiência <em>mais simples, personalizada e motivadora.</em></p>
+      <div class="hl"><p>O que vai vender não é a lista de funcionalidades. O que vai vender é o raciocínio: <strong>"eu consigo cuidar melhor da minha alimentação sem depender de um processo chato, técnico ou cansativo."</strong></p></div>
+    </div>
+    <div class="g2" style="gap:12px;align-content:start">
+      <div class="sc"><div class="sc-n">iOS</div><div class="sc-l">Aprovado na Apple</div><div class="sc-s" style="color:var(--g600)">✓ Disponível na App Store</div></div>
+      <div class="sc"><div class="sc-n">Android</div><div class="sc-l">Google Play</div><div class="sc-s" style="color:#EA580C">Aguardando aprovação</div></div>
+      <div class="sc"><div class="sc-n">IA</div><div class="sc-l">Diferencial central</div><div class="sc-s">Reconhece foto de refeição</div></div>
+      <div class="sc"><div class="sc-n">3</div><div class="sc-l">Planos de assinatura</div><div class="sc-s">Free · Pro · Elite</div></div>
+      <div class="sc" style="grid-column:1/-1;background:var(--g50);border-color:rgba(34,197,94,.25)">
+        <div class="sc-n" style="font-size:18px;margin-bottom:6px">Idiomas disponíveis</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="pill" style="font-size:13.2px;padding:5px 14px;background:#DBEAFE;color:#1E3A8A">🇺🇸 Inglês</span>
+          <span class="pill" style="font-size:13.2px;padding:5px 14px;background:#DCFCE7;color:#166534">🇧🇷 Português</span>
+          <span class="pill" style="font-size:13.2px;padding:5px 14px;background:#FEF3C7;color:#92400E">🇪🇸 Espanhol</span>
+        </div>
+        <div style="font-size:14.4px;color:var(--g700);font-weight:500;margin-top:8px">O app é comercializado nos três idiomas, ampliando o alcance de mercado para América do Norte, Brasil e América Latina</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2 mb40">
+    <div class="card">
+      <div class="card-lbl">Problema que o app resolve — para o usuário final</div>
+      <ul class="info mb16">
+        <li class="il">Dificuldade em acompanhar a alimentação com consistência</li>
+        <li class="il">Preguiça ou fricção no registro manual de refeições</li>
+        <li class="il">Falta de clareza sobre calorias e macros consumidos</li>
+        <li class="il">Dificuldade em manter rotina saudável no longo prazo</li>
+        <li class="il">Perda de motivação em apps frios ou burocráticos</li>
+        <li class="il">Necessidade de acompanhamento inteligente sem depender exclusivamente de atendimento individual</li>
+      </ul>
+      <div style="padding-top:14px;border-top:1px solid var(--ink12)">
+        <div class="card-lbl">Dor de mercado que o app enfrenta</div>
+        <p style="font-size:15px;color:var(--ink70);line-height:1.6">Apps de nutrição são percebidos como manuais demais, pouco intuitivos, técnicos demais para usuários comuns e genéricos sem personalização real. O NutriTrack Pro corrige isso com IA, automação, contexto e experiência mais premium.</p>
+      </div>
+    </div>
+    <div class="vcard-g">
+      <div class="card-lbl">Transformação prometida — antes e depois</div>
+      <div style="font-family:var(--display);font-weight:700;font-size:21.6px;color:var(--ink);letter-spacing:-.02em;margin-bottom:16px">O que o app realmente vende</div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div class="tr-rw"><span class="tr-fr">Desorganização alimentar</span><span class="tr-ar">→</span><span class="tr-to">Clareza</span></div>
+        <div class="tr-rw"><span class="tr-fr">Tentativa solta</span><span class="tr-ar">→</span><span class="tr-to">Acompanhamento real</span></div>
+        <div class="tr-rw"><span class="tr-fr">Esforço manual</span><span class="tr-ar">→</span><span class="tr-to">Praticidade com IA</span></div>
+        <div class="tr-rw"><span class="tr-fr">Desmotivação</span><span class="tr-ar">→</span><span class="tr-to">Engajamento contínuo</span></div>
+        <div class="tr-rw"><span class="tr-fr">Falta de constância</span><span class="tr-ar">→</span><span class="tr-to">Progresso visível</span></div>
+        <div class="tr-rw"><span class="tr-fr">App genérico e frio</span><span class="tr-ar">→</span><span class="tr-to">Experiência personalizada</span></div>
+      </div>
+    </div>
+  </div>
+
+  <span class="lbl">Público-alvo</span>
+  <div class="g2 mb40">
+    <div class="card" style="border-left:3px solid var(--g500);border-radius:4px 16px 16px 4px">
+      <div class="card-lbl">Público 1 — Usuário Final B2C</div>
+      <div style="font-family:var(--display);font-weight:700;font-size:20.4px;color:var(--ink);letter-spacing:-.02em;margin-bottom:14px">Pessoas que querem melhorar a alimentação com tecnologia</div>
+      <ul class="info mb16">
+        <li class="il">Homens e mulheres interessados em saúde e bem-estar</li>
+        <li class="il">Pessoas que já tentaram melhorar a alimentação antes</li>
+        <li class="il">Perfil digital com afinidade por apps premium</li>
+        <li class="il">Usuários interessados em metas, progresso e experiência guiada</li>
+      </ul>
+      <span class="lbl" style="margin-bottom:8px">Casos de uso principais</span>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span class="pill p-g">Emagrecimento</span><span class="pill p-g">Manutenção de peso</span><span class="pill p-g">Controle de macros</span><span class="pill p-g">Reeducação alimentar</span><span class="pill p-g">Consciência alimentar</span><span class="pill p-g">Retomada da disciplina</span>
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--b500);border-radius:4px 16px 16px 4px">
+      <div class="card-lbl">Público 2 — Embaixadores / Parceiros de Aquisição</div>
+      <div style="font-family:var(--display);font-weight:700;font-size:20.4px;color:var(--ink);letter-spacing:-.02em;margin-bottom:14px">Quem vai divulgar e converter</div>
+      <ul class="info">
+        <li class="il il-b">Microinfluenciadores de saúde e bem-estar (3k–80k seguidores)</li>
+        <li class="il il-b">Nutricionistas com presença digital pequena ou média</li>
+        <li class="il il-b">Creators de rotina saudável, emagrecimento e hábitos</li>
+        <li class="il il-b">Creators de lifestyle focados em autocuidado e rotina</li>
+        <li class="il il-b">Health coaches e life coaches com audiência engajada</li>
+      </ul>
+    </div>
+  </div>
+
+  <span class="lbl">Principais funcionalidades</span>
+  <div class="g4 mb32">
+    <div class="ic"><div class="ic-icon ib-g"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="3" stroke="#16A34A" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="#16A34A" stroke-width="1.5"/></svg></div><div class="ic-title">Registro com IA</div><div class="ic-body">Foto ou texto da refeição — a IA analisa calorias, proteínas, carboidratos, gordura e fibra automaticamente</div></div>
+    <div class="ic"><div class="ic-icon ib-b"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 6C4 4.9 4.9 4 6 4H14C15.1 4 16 4.9 16 6V12C16 13.1 15.1 14 14 14H11L8 17V14H6C4.9 14 4 13.1 4 12V6Z" stroke="#3B82F6" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="ic-title">Coach Nutricional IA</div><div class="ic-body">Chat contextualizado com histórico, perfil e metas do usuário. Disponível no plano Elite</div></div>
+    <div class="ic"><div class="ic-icon ib-a"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L12.1 7.3L17 8.1L13.5 11.5L14.3 16.4L10 14.2L5.7 16.4L6.5 11.5L3 8.1L7.9 7.3L10 3Z" stroke="#D97706" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="ic-title">Gamificação</div><div class="ic-body">16 conquistas, streaks, ranking entre amigos, alertas de aderência e reforço de comportamento</div></div>
+    <div class="ic"><div class="ic-icon ib-p"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="4" width="12" height="10" rx="2" stroke="#7C3AED" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ic-title">Progresso visual</div><div class="ic-body">Gráficos de calorias e peso, reflexões semanais, cartão de progresso compartilhável</div></div>
+    <div class="ic"><div class="ic-icon ib-t"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4C10 4 7 7.5 7 10.5C7 12.4 8.3 14 10 14C11.7 14 13 12.4 13 10.5C13 7.5 10 4 10 4Z" stroke="#0D9488" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="ic-title">Controle de água</div><div class="ic-body">Metas personalizadas, registro rápido por botões, alertas e marcos de consumo diário</div></div>
+    <div class="ic"><div class="ic-icon ib-r"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="7.5" cy="7.5" r="2.5" stroke="#E11D48" stroke-width="1.5"/><circle cx="12.5" cy="7.5" r="2.5" stroke="#E11D48" stroke-width="1.5"/></svg></div><div class="ic-title">Social e Ranking</div><div class="ic-body">Adicionar amigos por código, ranking por aderência, desafios entre amigos</div></div>
+    <div class="ic"><div class="ic-icon ib-g"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="3" width="12" height="14" rx="2" stroke="#16A34A" stroke-width="1.5"/><path d="M7 7H13M7 10H13M7 13H10" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="ic-title">Diário alimentar</div><div class="ic-body">Histórico completo por dia, edição e exclusão de refeições, favoritos de alimentos</div></div>
+    <div class="ic"><div class="ic-icon ib-sl"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="4" width="12" height="12" rx="3" stroke="#475569" stroke-width="1.5"/><path d="M10 7V10L12 12" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="ic-title">Integrações</div><div class="ic-body">Apple Health, Siri Shortcuts, widget nativo, notificações inteligentes</div></div>
+  </div>
+
+  <span class="lbl">Estrutura de planos e monetização</span>
+  <div class="g3 mb40">
+    <div class="plan plan-free">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-family:var(--display);font-size:21.6px;font-weight:800;color:var(--ink)">Free</div><span class="pill p-out">Porta de entrada</span></div>
+      <ul class="info">
+        <li class="il">Scans limitados por dia</li>
+        <li class="il">Chat limitado por dia</li>
+        <li class="il">Histórico limitado</li>
+        <li class="il">Entrada gratuita no ecossistema</li>
+      </ul>
+    </div>
+    <div class="plan plan-pro">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-family:var(--display);font-size:21.6px;font-weight:800;color:var(--ink)">Pro</div><span class="pill p-g">Mais Popular</span></div>
+      <ul class="info">
+        <li class="il">Scans ilimitados</li>
+        <li class="il">Chat liberado</li>
+        <li class="il">Histórico completo</li>
+        <li class="il">Integração Apple Health</li>
+      </ul>
+    </div>
+    <div class="plan plan-elite">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-family:var(--display);font-size:21.6px;font-weight:800;color:var(--ink)">Elite</div><span class="pill p-g">Premium</span></div>
+      <ul class="info">
+        <li class="il">Experiência completa premium</li>
+        <li class="il">Coach nutricional com maior peso de IA</li>
+        <li class="il">Versão mais avançada de todas as features</li>
+        <li class="il">Acesso antecipado a novidades</li>
+      </ul>
+    </div>
+  </div>
+
+  <span class="lbl">Mensagens de posicionamento para uso em conteúdo</span>
+  <div class="g2 mb40">
+    <div class="tw"><table><thead><tr><th>Narrativa</th><th>Aplicação</th><th>Funil</th></tr></thead><tbody>
+      <tr><td><strong>"Registrar alimentação sem sofrer"</strong></td><td>Reels, TikTok, Stories</td><td>Topo</td></tr>
+      <tr><td><strong>"Mais clareza sobre o que você come"</strong></td><td>Página, anúncio</td><td>Meio</td></tr>
+      <tr><td><strong>"Ter acompanhamento no bolso"</strong></td><td>Embaixadores, UGC</td><td>Valor percebido</td></tr>
+      <tr><td><strong>"Manter consistência"</strong></td><td>Pós-download, e-mail</td><td>Retenção</td></tr>
+      <tr><td><strong>"Nutrição com IA"</strong></td><td>Criativo, thumbnail</td><td>CTR / curiosidade</td></tr>
+    </tbody></table></div>
+    <div>
+      <div class="hl-dk"><p>Mensagem central: <strong>"O jeito mais simples e inteligente de acompanhar sua alimentação."</strong></p></div>
+      <div class="mt16"><span class="lbl">O que NÃO comunicar — alinhamento de marca</span>
+      <ul class="info">
+        <li class="il il-r">NÃO listar todas as funções de uma vez no mesmo criativo</li>
+        <li class="il il-r">NÃO usar linguagem clínica ou médica nos copies</li>
+        <li class="il il-r">NÃO posicionar como substituto de nutricionista</li>
+        <li class="il il-r">IA é estimativa inteligente, não precisão clínica absoluta</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 02 — EMBAIXADORES -->
+<div class="pg" id="embaixadores" data-section="s2">
+  <div class="sh sh-s2">
+    <div class="sh-bar"></div>
+    <div class="sh-inner">
+      <div class="sh-tag">02 · Playbook de Embaixadores</div>
+      <h2 class="sh-title">Captação e ativação<br>de <em>parceiros de crescimento.</em></h2>
+      <p class="sh-sub">Não é influencer marketing. É um canal de aquisição por parceiros — um canal de aquisição escalável baseado em creators e profissionais da saúde que ganham recorrência indicando o app.</p>
+    </div>
+    <div class="sh-num">02</div>
+  </div>
+
+  <div class="g2 mb40">
+    <div>
+      <div class="prog-pos mb16">
+        <div class="card-lbl">Posicionamento do programa</div>
+        <div class="prog-pos-title">Embaixadores Fundadores NutriTrack</div>
+        <div class="prog-pos-body">O programa não é "quer divulgar?". É: <strong>"Estamos selecionando os primeiros parceiros que vão crescer junto com o app."</strong> Essa mudança de frame altera completamente a percepção e o nível de interesse dos creators.</div>
+      </div>
+      <div class="card" style="border-left:3px solid var(--b500);border-radius:4px 16px 16px 4px">
+        <div class="card-lbl">Meta operacional</div>
+        <div style="font-family:var(--display);font-weight:800;font-size:45.6px;color:var(--ink);letter-spacing:-.04em;margin-bottom:3px">30–50</div>
+        <div style="font-size:15.6px;color:var(--b600);font-weight:600;margin-bottom:14px">embaixadores ativos · primeiras 4 semanas</div>
+        <div class="mr"><span class="mr-l">Prospectar para fechar 30</span><span class="mr-v">150–300 abordagens</span></div>
+        <div class="mr"><span class="mr-l">Meta semanal de recrutamento</span><span class="mr-v">10 por semana</span></div>
+        <div class="mr"><span class="mr-l">Ritmo de prospecção diária</span><span class="mr-v">5–8 contatos/dia</span></div>
+      </div>
+    </div>
+    <div>
+      <span class="lbl">Matemática realista do programa</span>
+      <div class="card mb16">
+        <div class="fnl">
+          <div class="fn"><span class="fn-n">50</span><span class="fn-l">Embaixadores recrutados</span><span class="fn-s">Base total</span></div>
+          <div class="fn-arr">↓</div>
+          <div class="fn"><span class="fn-n">10</span><span class="fn-l">Creators postando com consistência</span><span class="fn-s">20% ativos</span></div>
+          <div class="fn-arr">↓</div>
+          <div class="fn"><span class="fn-n">5</span><span class="fn-l">Convertendo usuários reais</span><span class="fn-s">10% conversão</span></div>
+          <div class="fn-arr">↓</div>
+          <div class="fn fn-on"><span class="fn-n">3</span><span class="fn-l">Parceiros de alta performance</span><span class="fn-s">Canal sustentável</span></div>
+        </div>
+      </div>
+      <div class="hl-b"><p>50 creators × 10k reach médio = potencial de <strong>200k–500k impressões</strong> coordenadas no lançamento. Sem ads.</p></div>
+    </div>
+  </div>
+
+  <span class="lbl">Perfis ideais de embaixador — por tier de conversão</span>
+  <div class="g4 mb32">
+    <div class="tier tier-a"><div class="tier-badge">Tier A</div><div class="tier-title">Nutricionistas digitais</div><div class="tier-seg">Autoridade + audiência qualificada + confiança alta = maior conversão</div><div class="tier-f">3k – 30k seguidores</div></div>
+    <div class="tier tier-b"><div class="tier-badge">Tier B</div><div class="tier-title">Creators de rotina saudável</div><div class="tier-seg">Emagrecimento, hábitos, alimentação saudável, bem-estar e autocuidado</div><div class="tier-f">5k – 80k seguidores</div></div>
+    <div class="tier tier-c"><div class="tier-badge">Tier C</div><div class="tier-title">Creators fitness lifestyle</div><div class="tier-seg">Não hardcore. Foco em praticidade, rotina e estilo de vida ativo</div><div class="tier-f">8k – 80k seguidores</div></div>
+    <div class="tier tier-d"><div class="tier-badge">Tier D</div><div class="tier-title">Coaches de Saúde e Vida</div><div class="tier-seg">Criadores de conteúdo sobre hábitos, coaches de comportamento, profissionais de saúde</div><div class="tier-f">3k – 50k seguidores</div></div>
+  </div>
+
+  <div class="g2 mb40">
+    <div>
+      <span class="lbl">Onde encontrar + critérios</span>
+      <div class="card">
+        <div class="tw mb16"><table><thead><tr><th>Canal</th><th>Prioridade</th><th>Busca recomendada</th></tr></thead><tbody>
+          <tr><td><strong>Instagram</strong></td><td><span class="pill p-g" style="font-size:12px">Principal · 70%</span></td><td>#nutrition #weightlossjourney #healthylifestyle #macros</td></tr>
+          <tr><td><strong>TikTok</strong></td><td><span class="pill p-g" style="font-size:12px">Alto · 20%</span></td><td>Creators emergentes com alto engajamento</td></tr>
+          <tr><td><strong>LinkedIn</strong></td><td><span class="pill p-b" style="font-size:12px">Estratégico · 10%</span></td><td>Nutricionistas com autoridade profissional</td></tr>
+          <tr><td><strong>YouTube pequeno</strong></td><td><span class="pill p-out" style="font-size:12px">Secundário</span></td><td>Canais com 5k–50k inscritos</td></tr>
+        </tbody></table></div>
+        <span class="lbl">Qualificação — antes de abordar</span>
+        <ul class="info mb12">
+          <li class="il">Engajamento real verificado (likes, comentários, salvos, DMs)</li>
+          <li class="il">Respostas longas da audiência e perguntas frequentes nos comentários</li>
+          <li class="il">Conteúdo sobre rotina, disciplina, consistência alimentar</li>
+          <li class="il">Perfil responde DM e agradece a audiência</li>
+        </ul>
+        <span class="lbl" style="color:#DC2626">Sinais de alerta — NÃO abordar</span>
+        <ul class="info">
+          <li class="il il-r">Sem comentários genéricos, engajamento baixo ou conteúdo inconsistente</li>
+          <li class="il il-r">Não é perfil muito comercial, fitness hardcore ou meme page</li>
+          <li class="il il-r">Perfil não é arrogante, muito fechado ou somente de receitas</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <span class="lbl">Pipeline CRM — gestão de prospecção</span>
+      <div class="tw mb16"><table><thead><tr><th>Status</th><th>Ação</th></tr></thead><tbody>
+        <tr><td><strong>Prospectado</strong></td><td>Identificado, perfil avaliado</td></tr>
+        <tr><td><strong>Contato enviado</strong></td><td>DM personalizada enviada</td></tr>
+        <tr><td><strong>Respondido</strong></td><td>Houve resposta positiva</td></tr>
+        <tr><td><strong>Call marcada</strong></td><td>Reunião de 15 min agendada</td></tr>
+        <tr><td><strong>Negociando</strong></td><td>Proposta em discussão</td></tr>
+        <tr><td><strong>Fechado</strong></td><td>Onboarding iniciado</td></tr>
+        <tr><td><strong>Rejeitado</strong></td><td>Não seguir, registrar motivo</td></tr>
+      </tbody></table></div>
+      <div class="card" style="border-left:3px solid var(--b500);border-radius:4px 16px 16px 4px">
+        <div class="card-lbl">Setup do CRM — configuração inicial</div>
+        <ul class="info">
+          <li class="il il-b">Planilha/CRM criado com colunas: Nome, Instagram, Seguidores, Tipo</li>
+          <li class="il il-b">Coluna de engajamento estimado (%, não número absoluto)</li>
+          <li class="il il-b">Canal de contato utilizado e data registrados</li>
+          <li class="il il-b">Status atual + próxima ação + data de follow-up configurados</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <span class="lbl">Método de abordagem — 3 passos obrigatórios</span>
+  <div class="g3 mb32">
+    <div class="card" style="border-top:3px solid var(--b500)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:28px;height:28px;background:var(--b500);border-radius:50%;display:grid;place-items:center;flex-shrink:0;color:white;font-weight:700;font-size:15.6px">1</div>
+        <div style="font-family:var(--display);font-size:16.8px;font-weight:700;color:var(--ink)">Passo 1 — Aquecimento</div>
+      </div>
+      <ul class="info">
+        <li class="il">Curtir 2 posts recentes do perfil</li>
+        <li class="il">Não comentar ainda — criar familiaridade visual primeiro</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid var(--b500)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:28px;height:28px;background:var(--b500);border-radius:50%;display:grid;place-items:center;flex-shrink:0;color:white;font-weight:700;font-size:15.6px">2</div>
+        <div style="font-family:var(--display);font-size:16.8px;font-weight:700;color:var(--ink)">Passo 2 — Comentário real</div>
+      </div>
+      <ul class="info">
+        <li class="il il-b">Comentário genuíno sobre conteúdo específico do criador</li>
+        <li class="il il-b">Ex: "Gostei da sua abordagem sobre consistência alimentar, pouca gente aborda isso sem terrorismo nutricional." Nada genérico.</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid var(--b500)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:28px;height:28px;background:var(--b500);border-radius:50%;display:grid;place-items:center;flex-shrink:0;color:white;font-weight:700;font-size:15.6px">3</div>
+        <div style="font-family:var(--display);font-size:16.8px;font-weight:700;color:var(--ink)">Passo 3 — DM personalizada</div>
+      </div>
+      <ul class="info">
+        <li class="il">Somente após os passos 1 e 2 concluídos</li>
+        <li class="il">Referência ao conteúdo específico, não pitch direto. Postura de seleção, não de compra</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wf-wrap">
+    <div class="wf-left">
+      <div class="wf-left-title">Sequência<br>de Negociação</div>
+      <div class="wf-left-desc">Fluxo de abordagem validado passo a passo</div>
+    </div>
+    <div class="wf-main">
+      <div class="wf-step" style="border:2px solid #2563EB">
+        <div class="wf-head">
+          <span class="wf-num">01</span>
+          <div class="wf-icon" style="background:#EFF6FF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+        </div>
+        <div class="wf-stitle">Mensagem Inicial</div>
+        <p style="font-size:15.6px;line-height:1.6;color:var(--ink70);margin:0">Oi <strong>[nome]</strong>, tudo bem?<br><br>Vi seu conteúdo sobre <strong>[tema específico]</strong> e achei muito boa sua abordagem sobre <strong>[detalhe real]</strong>.<br><br>Estamos lançando um app de nutrição com IA (NutriTrack Pro) e estamos <strong>selecionando alguns profissionais e creators para serem embaixadores iniciais.</strong><br><br>A ideia não é publipost — é parceria de crescimento com comissão recorrente sobre usuários indicados.<br><br>Pelo seu conteúdo achei que você poderia ser um encaixe perfeito. <strong>Posso te explicar melhor?</strong></p>
+      </div>
+
+      <div class="wf-step" style="border:2px solid #22C55E">
+        <div class="wf-head">
+          <span class="wf-num">02</span>
+          <div class="wf-icon" style="background:#F0FDF4"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+        </div>
+        <div class="wf-stitle">Se resposta for positiva</div>
+        <p style="font-size:15.6px;line-height:1.6;color:var(--ink70);margin:0">Perfeito. Estamos estruturando um grupo pequeno de <strong>embaixadores iniciais</strong> para crescer junto com o app.<br><br>Basicamente: você recebe um link/código próprio, ganha <strong>comissão sobre assinaturas ativas</strong>, tem acesso antecipado e participa do crescimento inicial.<br><br>Se fizer sentido, posso te mandar os detalhes completos.</p>
+      </div>
+
+      <div class="wf-step" style="border:2px solid #F97316">
+        <div class="wf-head">
+          <span class="wf-num">03</span>
+          <div class="wf-icon" style="background:#FFF7ED"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        </div>
+        <div class="wf-stitle">E se pedirem fee fixo?</div>
+        <p style="font-size:15.6px;line-height:1.6;color:var(--ink70);margin:0">No momento estamos focando em <strong>parcerias de crescimento</strong>, não publiposts pagos. Estamos construindo o grupo inicial de parceiros que crescem junto com o produto. Se quiser, podemos ver performance primeiro.</p>
+      </div>
+
+      <div class="wf-step" style="border:2px solid #4F46E5">
+        <div class="wf-head">
+          <span class="wf-num">04</span>
+          <div class="wf-icon" style="background:#EEF2FF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        </div>
+        <div class="wf-stitle">A Call de Apresentação (15m)</div>
+        <ul class="info" style="margin:0;padding:0">
+          <li class="il il-b" style="font-size:15.6px;padding-top:4px;padding-bottom:4px">Apresentar produto e visão geral</li>
+          <li class="il il-b" style="font-size:15.6px;padding-top:4px;padding-bottom:4px">Explicar modelo de comissão recorrente e potencial</li>
+          <li class="il il-b" style="font-size:15.6px;padding-top:4px;padding-bottom:4px">Mostrar demo do app e funcionalidades principais</li>
+          <li class="il il-b" style="font-size:15.6px;padding-top:4px;padding-bottom:4px">Responder perguntas e apresentar próximos passos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <span class="lbl">Estrutura da proposta — o que oferecer</span>
+  <div class="g4 mb32">
+    <div class="offer-card oc-b">
+      <div class="oc-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L9.8 5.6L14 6.3L11 9.2L11.6 13.4L8 11.5L4.4 13.4L5 9.2L2 6.3L6.2 5.6L8 2Z" stroke="#3B82F6" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+      <div class="oc-label">1. Comissão</div><div class="oc-title">Recorrente</div>
+      <div class="oc-body">Ex: 20–40% sobre assinaturas ativas. Indica uma vez, recebe enquanto o usuário continua usando. Isso é MUITO mais atraente do que ganho por venda única.</div>
+    </div>
+    <div class="offer-card oc-b">
+      <div class="oc-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M3 4H9M3 12H11" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="oc-label">2. Código exclusivo</div><div class="oc-title">NUTRI[NOME]</div>
+      <div class="oc-body">Link e código rastreáveis para cada embaixador. Percepção de identidade, pertencimento e rastreamento transparente das conversões.</div>
+    </div>
+    <div class="offer-card oc-b">
+      <div class="oc-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="#3B82F6" stroke-width="1.5"/><path d="M8 5.5V8L9.5 9.5" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="oc-label">3. Acesso antecipado</div><div class="oc-title">Elite Free</div>
+      <div class="oc-body">Acesso completo e gratuito ao plano Elite durante o período de parceria. Percepção VIP e necessidade de testar de verdade antes de divulgar.</div>
+    </div>
+    <div class="offer-card oc-b">
+      <div class="oc-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5 8C5 6.3 6.3 5 8 5C9.7 5 11 6.3 11 8" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/><path d="M2 11C2 9 3.5 7.5 5 7.5H11C12.5 7.5 14 9 14 11" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="oc-label">4. Comunidade exclusiva</div><div class="oc-title">Grupo privado</div>
+      <div class="oc-body">WhatsApp ou Discord privado. Atualizações, materiais, ranking mensal e bônus para os melhores parceiros. Creators valorizam a sensação de grupo seleto.</div>
+    </div>
+  </div>
+
+  <span class="lbl">Kit embaixador — conteúdo e assets</span>
+  <div class="g2 mb40">
+    <div class="card">
+      <div class="card-lbl">Conteúdo do kit (PDF + assets digitais)</div>
+      <ul class="info">
+        <li class="il">Pitch simplificado em 3 linhas sobre o app</li>
+        <li class="il">Principais diferenciais e argumentos de conversão</li>
+        <li class="il">Como divulgar: sequência de posts sugerida com timing</li>
+        <li class="il">Como funciona a comissão e como acessar o dashboard</li>
+        <li class="il">Link de acesso ao código rastreável próprio</li>
+        <li class="il">Exemplos de posts que funcionam (com e sem texto)</li>
+        <li class="il">Perguntas frequentes com respostas prontas</li>
+        <li class="il">Contato direto do responsável pelo programa</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card mb16">
+        <div class="card-lbl">Assets visuais necessários</div>
+        <ul class="info">
+          <li class="il">Logo oficial em PNG e SVG (fundo transparente)</li>
+          <li class="il">Prints selecionados das telas principais do app</li>
+          <li class="il">Vídeo demo de 30–60s (gravação de tela + narração)</li>
+          <li class="il">Argumentos de venda formatados para stories e carrossel</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--b500);border-radius:4px 16px 16px 4px">
+        <div class="card-lbl">Sistema de incentivo — gamificar os embaixadores</div>
+        <ul class="info">
+          <li class="il il-b">Ranking mensal com lista dos melhores conversores</li>
+          <li class="il il-b">Bônus definidos para os 3 melhores do mês (crédito, acesso VIP, funcionalidades extras)</li>
+          <li class="il il-b">Comunicação semanal com ranking, dicas e atualizações do produto</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <span class="lbl">Perguntas que os embaixadores vão fazer — respostas preparadas</span>
+  <div class="tw mb40"><table><thead><tr><th>Pergunta</th><th>Resposta recomendada</th></tr></thead><tbody>
+    <tr><td><strong>Quanto paga?</strong></td><td>Comissão recorrente sobre assinaturas ativas — você indica uma vez e recebe enquanto o usuário continua usando o app</td></tr>
+    <tr><td><strong>Como rastreia?</strong></td><td>Código e link exclusivos gerados para cada embaixador, com dashboard de conversões acessível a qualquer momento</td></tr>
+    <tr><td><strong>Quando paga?</strong></td><td>Pagamento mensal sobre assinaturas ativas do mês anterior</td></tr>
+    <tr><td><strong>Já tem usuários?</strong></td><td>App aprovado na Apple, em lançamento coordenado com grupo de embaixadores fundadores</td></tr>
+    <tr><td><strong>Quanto converte?</strong></td><td>Depende do engajamento real da audiência — creators com autoridade convertem mais do que quem só tem seguidores</td></tr>
+    <tr><td><strong>Preciso postar sempre?</strong></td><td>Não há meta obrigatória — quanto mais compartilha, mais ganha. Sugerimos 2–3 posts por semana no início</td></tr>
+  </tbody></table></div>
+</div>
+
+<!-- SECTION 03 — LANÇAMENTO -->
+<div class="pg" id="lancamento" data-section="s3">
+  <div class="sh sh-s3">
+    <div class="sh-bar"></div>
+    <div class="sh-inner">
+      <div class="sh-tag">03 · Playbook de Lançamento — Execução</div>
+      <h2 class="sh-title">Da preparação ao<br><em>efeito bola de neve.</em></h2>
+      <p class="sh-sub">Lançamento híbrido de comunidade + criadores de conteúdo — lista de espera, embaixadores ativados, conteúdo sincronizado e acesso para os primeiros usuários criando percepção de produto desejado, não apenas disponível.</p>
+      <div class="sh-prog">
+        <div class="sh-prog-bar"><div class="sh-prog-fill" id="s3-prog" style="width:0%"></div></div>
+        <span class="sh-prog-lbl" id="s3-lbl">0 / 0 itens</span>
+      </div>
+    </div>
+    <div class="sh-num">03</div>
+  </div>
+
+  <div class="g3 mb40">
+    <div class="card lt-no">
+      <div style="font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#EF4444;margin-bottom:8px;display:flex;align-items:center;gap:6px"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#EF4444" stroke-width="1.5"/><path d="M4 4L8 8M8 4L4 8" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/></svg>Não fazer</div>
+      <div style="font-family:var(--display);font-size:20.4px;font-weight:700;color:var(--ink);margin-bottom:8px">Lançamento silencioso</div>
+      <div style="font-size:15.6px;color:var(--ink70);line-height:1.6">"O app tá pronto, vamos anunciar." Sem narrativa, sem antecipação, sem movimento. Morre rápido.</div>
+    </div>
+    <div class="card lt-warn">
+      <div style="font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;margin-bottom:8px;display:flex;align-items:center;gap:6px"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2V7M6 9.5V10" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round"/><circle cx="6" cy="6" r="5" stroke="#F59E0B" stroke-width="1.5"/></svg>Evitar agora</div>
+      <div style="font-family:var(--display);font-size:20.4px;font-weight:700;color:var(--ink);margin-bottom:8px">Lançamento pago (ads)</div>
+      <div style="font-size:15.6px;color:var(--ink70);line-height:1.6">Ads vêm depois — apenas com 1.000+ usuários ativos e dados reais de conversão para otimizar.</div>
+    </div>
+    <div class="card card-g lt-yes" style="background:var(--g500)">
+      <div style="font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:8px;display:flex;align-items:center;gap:6px"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="white" stroke-width="1.5"/><path d="M3.5 6L5.5 8L8.5 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Estratégia ideal</div>
+      <div class="lt-title" style="font-family:var(--display);font-size:20.4px;font-weight:700;margin-bottom:8px">Lançamento híbrido</div>
+      <div class="lt-body" style="font-size:15.6px;line-height:1.6">Lista de espera + embaixadores + conteúdo sincronizado + convite antecipado. Percepção de produto desejado.</div>
+    </div>
+  </div>
+
+  <span class="lbl">As 4 fases do lançamento — checklists de execução</span>
+
+  <div class="ph" id="ph1">
+    <div class="ph-hd ph-hd1"><div><div class="ph-num">Fase 01</div><div class="ph-title">Estruturação — Preparação Invisível</div></div><div class="ph-right"><div class="ph-period">Dias 1–14 · Semanas 1–2</div><div class="ph-pbar"><div class="ph-pbar-fill" id="ph1-bar" style="width:0%"></div></div><div class="ph-pct" id="ph1-pct">0%</div></div></div>
+    <div class="ph-body">
+      <p>Você não anuncia. Você estrutura. Nessa fase o app ainda não é lançado publicamente. Tudo que é construído aqui determina a qualidade do lançamento.</p>
+      <div class="ph-cols">
+        <div class="ph-grp"><h4>Estrutura obrigatória</h4>
+          <ul class="cl" data-sec="s3">
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>Landing page de lista de espera</strong> ao ar — headline clara, benefício principal, print do app, CTA "Garantir acesso antecipado"</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>Narrativa central definida</strong> — frase única aprovada pelo time: "Acompanhe sua nutrição de forma mais inteligente, sem complicação."</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>Vídeo demo de 30–60s</strong> gravado — fluxo: foto da comida → IA analisando → dashboard → progresso</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>Kit do embaixador completo</strong> — PDF finalizado, assets exportados, argumentos e FAQ prontos</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>CRM de prospecção</strong> configurado com todos os campos e etapas do pipeline</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>Estrutura de referral</strong> configurada — "Convide amigos → sobe prioridade na fila"</span></li>
+          </ul>
+        </div>
+        <div class="ph-grp"><h4>Copy da landing page</h4>
+          <ul class="cl" data-sec="s3">
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>Headline aprovada:</strong> "A forma mais simples de acompanhar sua nutrição com IA"</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>Subheadline aprovada:</strong> "Fotografe suas refeições, acompanhe macros automaticamente e mantenha a consistência."</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>Botão principal:</strong> "Garantir acesso antecipado" — nunca "Entrar na lista de espera"</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>Meta pública visível:</strong> "5.000 usuários iniciais" — gerar escassez percebida desde o dia 1</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text"><strong>Sequência de 5 e-mails</strong> configurada: Boas-vindas → Bastidores → Funcionalidade → Dia do lançamento → Lembrete</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ph" id="ph2">
+    <div class="ph-hd ph-hd2"><div><div class="ph-num">Fase 02</div><div class="ph-title">Pré-Lançamento — Criando Expectativa</div></div><div class="ph-right"><div class="ph-period">Dias 15–42 · Semanas 3–6</div><div class="ph-pbar"><div class="ph-pbar-fill" id="ph2-bar" style="width:0%"></div></div><div class="ph-pct" id="ph2-pct">0%</div></div></div>
+    <div class="ph-body">
+      <p>Aqui começa o jogo. Lista de espera em crescimento, embaixadores testando o app, conteúdo de curiosidade sendo gerado. Objetivo: criar expectativa antes de qualquer CTA direto.</p>
+      <div class="ph-cols">
+        <div class="ph-grp"><h4>Ações de embaixadores</h4>
+          <ul class="cl" data-sec="s3">
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">30–50 embaixadores recrutados e integrados</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Acesso antecipado ao app dado a TODOS os embaixadores — CRÍTICO para autenticidade</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Narrativa "usuários iniciais" ativada: Acesso antecipado, Usuários fundadores, Grupo beta</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Post 1 publicado: "Estou testando um novo app de nutrição com IA"</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Post 2 publicado: "Isso realmente tornou o acompanhamento mais fácil"</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Post 3 de antecipação: "Eles abriram acesso antecipado — link na bio"</span></li>
+          </ul>
+        </div>
+        <div class="ph-grp"><h4>Conteúdo do perfil oficial</h4>
+          <ul class="cl" data-sec="s3">
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Instagram oficial criado e bio configurada com link da lista</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">TikTok oficial criado e primeiros vídeos publicados</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Bastidores do desenvolvimento publicados</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Features demonstradas em vídeo curto</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Meta pública de 5.000 usuários iniciais sendo mostrada em stories</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Lista de espera com 1.000+ inscritos atingida</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ph" id="ph3">
+    <div class="ph-hd ph-hd3"><div><div class="ph-num">Fase 03</div><div class="ph-title">Impulso de Lançamento — Movimento Coordenado</div></div><div class="ph-right"><div class="ph-period">Dias 50–57 · Semana 8</div><div class="ph-pbar"><div class="ph-pbar-fill" id="ph3-bar" style="width:0%"></div></div><div class="ph-pct" id="ph3-pct">0%</div></div></div>
+    <div class="ph-body">
+      <p>Regra crítica: todos postam na mesma janela de 3–5 dias, não espalhado. O efeito psicológico que vocês querem é <strong>"todo mundo está falando sobre isso"</strong> — não "uma pessoa postou".</p>
+      <div class="mb20">
+        <span class="lbl" style="margin-bottom:12px">Clique em cada etapa ao concluir</span>
+        <div class="lseq" id="lseq">
+          <div class="ls" onclick="toggleLs(this)"><div class="ls-day">Dia -5</div><div class="ls-action">Teaser</div><div class="ls-detail">Embaixadores: "algo está chegando"</div></div>
+          <div class="ls" onclick="toggleLs(this)"><div class="ls-day">Dia -3</div><div class="ls-action">Anúncio</div><div class="ls-detail">"Acesso abrindo em breve"</div></div>
+          <div class="ls" onclick="toggleLs(this)"><div class="ls-day">Dia -1</div><div class="ls-action">Contagem</div><div class="ls-detail">Stories e engajamento</div></div>
+          <div class="ls active" onclick="toggleLs(this)"><div class="ls-day">Dia 0</div><div class="ls-action">LANÇAMENTO</div><div class="ls-detail">TODOS: post + stories + link</div></div>
+          <div class="ls" onclick="toggleLs(this)"><div class="ls-day">Dia +1</div><div class="ls-action">Prova social</div><div class="ls-detail">Prints, comentários, reações</div></div>
+          <div class="ls" onclick="toggleLs(this)"><div class="ls-day">Dia +3</div><div class="ls-action">Resultados</div><div class="ls-detail">Dados reais, depoimentos</div></div>
+        </div>
+      </div>
+      <div class="ph-cols">
+        <div class="ph-grp"><h4>Checklist do dia de lançamento</h4>
+          <ul class="cl" data-sec="s3">
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Briefing de lançamento enviado a TODOS os embaixadores com data, mensagem, CTA e link</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Post principal publicado: demo visual do app + experiência pessoal com IA</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">CTA claro nos posts: "Acesso antecipado aberto — código [SEU_CÓDIGO]"</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Preço de fundador ativo: 20% off para usuários iniciais — urgência real</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Badge "Membro Fundador" ativado para os primeiros usuários</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Referral ativo: "Convide 3 amigos → desbloqueie trial Pro"</span></li>
+          </ul>
+        </div>
+        <div class="ph-grp"><h4>Pós-lançamento — 48h após</h4>
+          <ul class="cl" data-sec="s3">
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Prints de usuários e comentários coletados para prova social</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Dados reais de downloads e ativações compartilhados com embaixadores</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Top 3 embaixadores em conversão reconhecidos no grupo</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Depoimentos iniciais coletados para usar em próximos criativos</span></li>
+          </ul>
+          <div class="hl-o mt12"><p>Incentivo de referral pode <strong>dobrar ou triplicar</strong> a aquisição orgânica nos primeiros 7 dias sem custo adicional.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ph" id="ph4">
+    <div class="ph-hd ph-hd4"><div><div class="ph-num">Fase 04</div><div class="ph-title">Continuidade — Manter o Crescimento</div></div><div class="ph-right"><div class="ph-period">Dia 58+ · Contínuo</div><div class="ph-pbar"><div class="ph-pbar-fill" id="ph4-bar" style="width:0%"></div></div><div class="ph-pct" id="ph4-pct">0%</div></div></div>
+    <div class="ph-body">
+      <p>O erro mais comum: parar após o lançamento. O momentum precisa ser mantido com conteúdo semanal, ativação dos embaixadores e ciclos de crescimento internos do produto.</p>
+      <div class="ph-cols">
+        <div class="ph-grp"><h4>Ações semanais de momentum</h4>
+          <ul class="cl" data-sec="s3">
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Posts semanais dos embaixadores — conteúdo de experiência e progresso</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Leaderboard dos embaixadores atualizado e compartilhado no grupo</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Bônus mensal enviado para top 3 conversores</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Comunicação interna semanal com updates, dicas e motivação</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Campanha 1 ativa: Rastreamento alimentar com IA — gancho principal</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Campanha 2 ativa: Desafio de consistência — desafio de 7 dias</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Campanha 3 ativa: Progresso de 30 dias — antes e depois compartilhável</span></li>
+          </ul>
+        </div>
+        <div class="ph-grp"><h4>Ciclos de crescimento do produto</h4>
+          <ul class="cl" data-sec="s3">
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Feature "Adicionar amigos" sendo promovida como loop de aquisição</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Cartão de progresso compartilhável sendo divulgado pelos usuários</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Ranking entre amigos como desafio social ativo</span></li>
+            <li class="ci"><div class="ci-box"></div><span class="ci-text">Referral integrado funcionando: indicar = ganhar bônus</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-funnel mb40 mt24">
+    <div class="card">
+      <div class="card-lbl">Canais por prioridade</div>
+      <div class="cbr"><div class="cbr-l">Instagram Reels + Stories</div><div class="cbr-t"><div class="cbr-f" style="width:70%"></div></div><div class="cbr-p">70%</div></div>
+      <div class="cbr"><div class="cbr-l">TikTok</div><div class="cbr-t"><div class="cbr-f" style="width:20%"></div></div><div class="cbr-p">20%</div></div>
+      <div class="cbr"><div class="cbr-l">LinkedIn (nutricionistas)</div><div class="cbr-t"><div class="cbr-f" style="width:10%"></div></div><div class="cbr-p">10%</div></div>
+      <div class="cbr"><div class="cbr-l">YouTube Shorts</div><div class="cbr-t"><div class="cbr-f" style="width:4%;background:#94A3B8"></div></div><div class="cbr-p" style="color:var(--ink40)">—</div></div>
+      <div class="cbr"><div class="cbr-l">Reddit / Product Hunt</div><div class="cbr-t"><div class="cbr-f" style="width:3%;background:#94A3B8"></div></div><div class="cbr-p" style="color:var(--ink40)">—</div></div>
+    </div>
+    <div>
+      <span class="lbl">Funil de aquisição completo</span>
+      <div class="card">
+        <div class="ff mb16">
+          <div class="ffs ffs-dk"><div class="ffs-pre">Creator</div><div class="ffs-m">Post</div></div><div class="ff-arr">→</div>
+          <div class="ffs ffs-lt"><div class="ffs-pre">Link na bio</div><div class="ffs-m">Landing</div></div><div class="ff-arr">→</div>
+          <div class="ffs ffs-lt"><div class="ffs-pre">Captura</div><div class="ffs-m">Lista de Espera</div></div><div class="ff-arr">→</div>
+          <div class="ffs ffs-lt"><div class="ffs-pre">E-mail</div><div class="ffs-m">Lançamento</div></div><div class="ff-arr">→</div>
+          <div class="ffs ffs-gn"><div class="ffs-pre">Ativação</div><div class="ffs-m">Usuário</div></div>
+        </div>
+        <span class="lbl" style="margin-bottom:8px">E-mails obrigatórios</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="pill p-o">1. Boas-vindas</span><span class="pill p-o">2. Bastidores</span><span class="pill p-o">3. Funcionalidade</span><span class="pill p-o">4. Dia do lançamento</span><span class="pill p-o">5. Lembrete</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 04 — TIMELINE -->
+<div class="pg" id="timeline" data-section="s4">
+  <div class="sh sh-s4">
+    <div class="sh-bar"></div>
+    <div class="sh-inner">
+      <div class="sh-tag">04 · Cronograma Integrado</div>
+      <h2 class="sh-title">Do zero ao<br><em>primeiro momentum.</em></h2>
+      <p class="sh-sub">Cronograma completo com fases, ações paralelas, marcos e responsabilidades. Marque cada semana como concluída para acompanhar o progresso de execução em tempo real.</p>
+      <div class="sh-prog">
+        <div class="sh-prog-bar"><div class="sh-prog-fill" id="s4-prog" style="width:0%"></div></div>
+        <span class="sh-prog-lbl" id="s4-lbl">0 / 0 itens</span>
+      </div>
+    </div>
+    <div class="sh-num">04</div>
+  </div>
+
+  <div class="g2 mb40">
+    <div>
+      <div class="tl">
+        <div class="tl-it"><div class="tl-dot f"></div><div class="tl-per">Dias 1–14 · Semanas 1–2</div><div class="tl-nm">Fundação</div><div class="tl-desc">Montar landing page com CTA "Garantir acesso antecipado". Definir narrativa central. Produzir vídeo demo de 30–60s. Criar kit do embaixador completo. Definir estrutura de comissão e rastreamento. Configurar CRM de prospecção.</div></div>
+        <div class="tl-it"><div class="tl-dot f"></div><div class="tl-per">Dias 15–35 · Semanas 3–5</div><div class="tl-nm">Recrutamento de embaixadores</div><div class="tl-desc">Prospectar 150–300 perfis qualificados. Executar método 3 passos. Meta: 10 abordagens por dia, 10 fechamentos por semana. Onboarding e acesso antecipado ao app. Compartilhar kit completo.</div></div>
+        <div class="tl-it"><div class="tl-dot f"></div><div class="tl-per">Dias 30–50 · Semanas 5–7</div><div class="tl-nm">Conteúdo de pré-lançamento</div><div class="tl-desc">Embaixadores publicam sequência: Post 1 (teste) → Post 2 (experiência) → Post 3 (antecipação de acesso). Perfil oficial: bastidores e demos. Lista de espera em crescimento ativo.</div></div>
+        <div class="tl-it"><div class="tl-dot f"></div><div class="tl-per">Dias 50–57 · Semana 8</div><div class="tl-nm">Impulso de Lançamento</div><div class="tl-desc">Todos os embaixadores postam na janela de 3–5 dias. Sequência: teaser (-5) → anúncio (-3) → contagem regressiva (-1) → lançamento (0) → prova social (+1) → resultados (+3). Preço de fundador e referral ativos.</div></div>
+        <div class="tl-it"><div class="tl-dot"></div><div class="tl-per">Dia 58+ · Contínuo</div><div class="tl-nm">Momentum</div><div class="tl-desc">Posts semanais dos embaixadores. Leaderboard mensal. Campanhas temáticas ativas. Ciclos de crescimento do produto ativados. Análise de CPA, ativação e retenção. Ads apenas após 1.000+ usuários ativos.</div></div>
+      </div>
+    </div>
+    <div>
+      <span class="lbl">Metas e projeções</span>
+      <div class="card mb16">
+        <div class="card-lbl">Resultado projetado — sem ads</div>
+        <div class="g2" style="gap:12px">
+          <div><div style="font-family:var(--display);font-weight:800;font-size:36px;color:var(--ink);letter-spacing:-.03em">500–3k</div><div style="font-size:14.4px;color:var(--ink70)">Usuários ativos iniciais</div></div>
+          <div><div style="font-family:var(--display);font-weight:800;font-size:36px;color:var(--ink);letter-spacing:-.03em">200k–500k</div><div style="font-size:14.4px;color:var(--ink70)">Impressões no lançamento</div></div>
+        </div>
+      </div>
+      <div class="card mb16">
+        <div class="card-lbl">Métricas principais — o que acompanhar</div>
+        <div class="mr"><span class="mr-l">CPA (Custo por aquisição)</span><span class="mr-n">Prioridade máxima</span></div>
+        <div class="mr"><span class="mr-l">Taxa de ativação pós-download</span><span class="mr-n">Critério de saúde</span></div>
+        <div class="mr"><span class="mr-l">Retenção D1, D7, D30</span><span class="mr-n">Sinal de produto</span></div>
+        <div class="mr"><span class="mr-l">Conversão Free → Pro/Elite</span><span class="mr-n">Receita</span></div>
+        <div class="mr"><span class="mr-l">Engajamento dos embaixadores</span><span class="mr-n">Canal de aquisição</span></div>
+      </div>
+      <div class="vcard-p" style="border-left:3px solid var(--p500);border-radius:4px 16px 16px 4px">
+        <div class="card-lbl">Sequência de expansão dos canais</div>
+        <div class="mr"><span style="font-size:13.2px;color:var(--ink40)">Fase 1</span><span style="font-family:var(--display);font-size:15.6px;font-weight:700;color:var(--ink)">Motor de creators (agora)</span><span class="mr-n">Baixo custo, alto impacto</span></div>
+        <div class="mr"><span style="font-size:13.2px;color:var(--ink40)">Fase 2</span><span style="font-family:var(--display);font-size:15.6px;font-weight:700;color:var(--ink)">UGC</span><span class="mr-n">Após base inicial</span></div>
+        <div class="mr" style="border-bottom:none"><span style="font-size:13.2px;color:var(--ink40)">Fase 3</span><span style="font-family:var(--display);font-size:15.6px;font-weight:700;color:var(--ink)">Ads pagos</span><span class="mr-n">Após 1.000+ usuários</span></div>
+      </div>
+    </div>
+  </div>
+
+  <span class="lbl">Tabela master — clique em cada semana para marcar como concluída</span>
+  <div class="tw mb40">
+    <table>
+      <thead><tr><th style="width:40px"></th><th>Semana</th><th>Fase</th><th>Produto e Estrutura</th><th>Embaixadores</th><th>Conteúdo</th><th>Meta</th></tr></thead>
+      <tbody>
+        <tr class="tr-week" data-sec="s4" onclick="toggleWeek(this)"><td><div class="week-cb"></div></td><td><strong>S1</strong> D1–7</td><td><span class="pill p-dk" style="font-size:12px">Fundação</span></td><td>Landing page, narrativa, vídeo demo</td><td>Estruturar kit, definir comissão, montar CRM</td><td>—</td><td>Landing ao ar</td></tr>
+        <tr class="tr-week" data-sec="s4" onclick="toggleWeek(this)"><td><div class="week-cb"></div></td><td><strong>S2</strong> D8–14</td><td><span class="pill p-dk" style="font-size:12px">Fundação</span></td><td>Sequência de e-mails, referral, rastreamento</td><td>Iniciar prospecção, 50–70 contatos</td><td>Perfil oficial criado, primeiros posts</td><td>200+ na lista</td></tr>
+        <tr class="tr-week" data-sec="s4" onclick="toggleWeek(this)"><td><div class="week-cb"></div></td><td><strong>S3</strong> D15–21</td><td><span class="pill p-b" style="font-size:12px">Recrutamento</span></td><td>Acesso antecipado para embaixadores</td><td>70 abordagens, fechar 10 embaixadores</td><td>Bastidores, primeira demo</td><td>10 integrados</td></tr>
+        <tr class="tr-week" data-sec="s4" onclick="toggleWeek(this)"><td><div class="week-cb"></div></td><td><strong>S4</strong> D22–28</td><td><span class="pill p-b" style="font-size:12px">Recrutamento</span></td><td>—</td><td>70 abordagens, fechar mais 10</td><td>Embaixadores: Post 1 (curiosidade)</td><td>20 ativos</td></tr>
+        <tr class="tr-week" data-sec="s4" onclick="toggleWeek(this)"><td><div class="week-cb"></div></td><td><strong>S5</strong> D29–35</td><td><span class="pill p-b" style="font-size:12px">Recrutamento</span></td><td>Refinamento com feedback dos embaixadores</td><td>Fechar últimos 10–20, total 30–50</td><td>Embaixadores: Post 2 (experiência)</td><td>30–50 total</td></tr>
+        <tr class="tr-week" data-sec="s4" onclick="toggleWeek(this)"><td><div class="week-cb"></div></td><td><strong>S6</strong> D36–42</td><td><span class="pill p-o" style="font-size:12px">Pré-lançamento</span></td><td>—</td><td>Briefing de lançamento, datas confirmadas</td><td>Conteúdo de antecipação, meta pública</td><td>1.000+ na lista</td></tr>
+        <tr class="tr-week" data-sec="s4" onclick="toggleWeek(this)"><td><div class="week-cb"></div></td><td><strong>S7</strong> D43–49</td><td><span class="pill p-o" style="font-size:12px">Pré-lançamento</span></td><td>Briefing de lançamento enviado a todos</td><td>Alinhamento final, confirmar posts</td><td>Contagem regressiva, stories diários</td><td>2.000+ na lista</td></tr>
+        <tr class="tr-week tr-launch" data-sec="s4" onclick="toggleWeek(this)"><td><div class="week-cb"></div></td><td><strong>S8</strong> D50–57</td><td><span class="pill p-g" style="font-size:12px;background:var(--g500);color:white">LANÇAMENTO</span></td><td>Preço de fundador + referral ativos</td><td>TODOS postam em 3–5 dias</td><td>Dia de lançamento, prova social, resultados</td><td><strong>500–3.000 downloads</strong></td></tr>
+        <tr class="tr-week" data-sec="s4" onclick="toggleWeek(this)"><td><div class="week-cb"></div></td><td><strong>S9+</strong></td><td><span class="pill p-p" style="font-size:12px">Momentum</span></td><td>Análise de métricas, otimização</td><td>Posts semanais, leaderboard, bônus</td><td>Campanhas temáticas, UGC</td><td>Crescimento sustentável</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="concl mb16">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
+      <div>
+        <div style="font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--g500);margin-bottom:16px">Conclusão estratégica</div>
+        <div style="font-family:var(--display);font-weight:800;font-size:28.8px;line-height:1.25;color:#fff;letter-spacing:-.03em;margin-bottom:18px">Se executarem bem, vocês criam <em style="color:var(--g300)">efeito bola de neve.</em> Se executarem mal, fazem um anúncio de app — e isso morre rápido.</div>
+        <p style="font-size:15.6px;color:rgba(255,255,255,.45);line-height:1.7">Apps crescem por creators, não por anúncios. Fundação → Pré-lançamento → Lançamento → Momentum — com embaixadores que são parceiros de crescimento, não publicidade paga.</p>
+      </div>
+      <div>
+        <div style="font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:16px">Resumo da estrutura</div>
+        <ul class="info" style="gap:6px">
+          <li class="il" style="color:rgba(255,255,255,.55);padding:5px 10px 5px 28px"><strong style="color:rgba(255,255,255,.8)">Fundação:</strong> 2 semanas de preparação sem anunciar nada</li>
+          <li class="il" style="color:rgba(255,255,255,.55);padding:5px 10px 5px 28px"><strong style="color:rgba(255,255,255,.8)">Pré-lançamento:</strong> 3 semanas construindo expectativa com embaixadores</li>
+          <li class="il" style="color:rgba(255,255,255,.55);padding:5px 10px 5px 28px"><strong style="color:rgba(255,255,255,.8)">Lançamento:</strong> 1 semana de movimento coordenado e simultâneo</li>
+          <li class="il" style="color:rgba(255,255,255,.55);padding:5px 10px 5px 28px"><strong style="color:rgba(255,255,255,.8)">Momentum:</strong> contínuo — sem parar, sem relaxar</li>
+        </ul>
+        <div style="margin-top:18px;padding:14px 16px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:12px">
+          <p style="font-size:15.6px;color:var(--g300);line-height:1.65">O NutriTrack Pro não deve ser apresentado como "um app cheio de funções". Ele é uma <strong style="color:var(--g200)">solução moderna para quem quer acompanhar a alimentação com menos esforço e mais inteligência.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="logo-w">
+    <img src="nutritrack_logo.png" alt="NutriTrack Pro" class="logo-img">
+    <div><div class="logo-nm">NutriTrack <span>Pro</span></div><div class="footer-n" style="margin-top:2px">Planejamento Estratégico · Documento de Execução</div></div>
+  </div>
+  <div class="footer-r">
+    <div class="footer-t">Briefing · Embaixadores · Lançamento · Cronograma</div>
+    <div class="footer-n">Março 2026 · Confidencial</div>
+  </div>
+</div>
+
+<script>
+const state={items:{},sections:{s3:[],s4:[]}};
+document.addEventListener('DOMContentLoaded',()=>{
+  let c=0;
+  document.querySelectorAll('.ci').forEach(li=>{
+    const id='i'+c++;
+    li.dataset.id=id;
+    const sec=li.closest('[data-sec]')?.dataset.sec||'s3';
+    li.dataset.sec=sec;
+    state.items[id]=false;
+    if(state.sections[sec])state.sections[sec].push(id);
+    li.addEventListener('click',()=>{
+      state.items[id]=!state.items[id];
+      li.classList.toggle('done',state.items[id]);
+      updateAll();
+    });
+  });
+  document.querySelectorAll('.tr-week').forEach(tr=>{
+    const id='w'+c++;
+    tr.dataset.id=id;
+    state.items[id]=false;
+    state.sections['s4'].push(id);
+  });
+  updateAll();
+});
+function toggleWeek(tr){
+  const id=tr.dataset.id;
+  state.items[id]=!state.items[id];
+  tr.classList.toggle('week-done',state.items[id]);
+  updateAll();
+}
+function toggleLs(el){
+  if(el.classList.contains('active'))return;
+  el.classList.toggle('ls-done');
+}
+function updateAll(){
+  let tAll=0,dAll=0;
+  ['s3','s4'].forEach(sec=>{
+    const ids=state.sections[sec]||[];
+    const t=ids.length,d=ids.filter(id=>state.items[id]).length;
+    tAll+=t;dAll+=d;
+    const p=t?Math.round(d/t*100):0;
+    const bar=document.getElementById(sec+'-prog');
+    const lbl=document.getElementById(sec+'-lbl');
+    if(bar)bar.style.width=p+'%';
+    if(lbl)lbl.textContent=d+' / '+t+' itens';
+    const wB=document.getElementById('pw-'+sec+'-bar');
+    const wC=document.getElementById('pw-'+sec+'-ct');
+    if(wB)wB.style.width=p+'%';
+    if(wC)wC.textContent=d+'/'+t;
+  });
+  // Phase bars
+  const s3=state.sections.s3||[];
+  [[0,11,'ph1'],[11,23,'ph2'],[23,33,'ph3'],[33,44,'ph4']].forEach(([a,b,id])=>{
+    const sl=s3.slice(a,b);if(!sl.length)return;
+    const d=sl.filter(x=>state.items[x]).length;
+    const p=Math.round(d/sl.length*100);
+    const bar=document.getElementById(id+'-bar');
+    const lbl=document.getElementById(id+'-pct');
+    if(bar)bar.style.width=p+'%';
+    if(lbl)lbl.textContent=p+'%';
+  });
+  const tp=tAll?Math.round(dAll/tAll*100):0;
+  const b=document.getElementById('pw-bar');
+  const p=document.getElementById('pw-total-pct');
+  const ct=document.getElementById('pw-total-ct');
+  if(b)b.style.width=tp+'%';
+  if(p)p.textContent=tp+'%';
+  if(ct)ct.textContent=dAll+' / '+tAll+' itens';
+}
+function minimizePW(){document.getElementById('pw').classList.add('pw-mini')}
+function expandPW(){document.getElementById('pw').classList.remove('pw-mini')}
+</script>
+</body>
+</html>
