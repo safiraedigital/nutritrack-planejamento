@@ -1,0 +1,329 @@
+﻿Playbook 1 — Briefing Estratégico do App NutriTrack Pro
+1. Visão geral do produto
+Nome do app: NutriTrack Pro
+Categoria: saúde, nutrição, hábitos e bem-estar
+Modelo de negócio: assinatura recorrente
+Plataforma atual: iOS aprovado na Apple Store
+Status Android: aguardando aprovação da Play Store
+Idiomas do app: português, inglês e espanhol
+Mercado prioritário de lançamento: Brasil
+Tipo de produto: aplicativo B2C de acompanhamento alimentar com inteligência artificial
+O NutriTrack Pro é um aplicativo premium de nutrição e acompanhamento alimentar que une registro de refeições, análise por inteligência artificial, acompanhamento de progresso, gamificação e uma camada social em uma única experiência.
+A proposta do app não é apenas ajudar o usuário a “contar calorias”. O papel dele é facilitar o processo de acompanhar a alimentação, reduzir atrito no dia a dia e aumentar a constância.
+________________
+
+
+2. O que o produto realmente entrega
+O NutriTrack Pro não deve ser tratado apenas como um rastreador alimentar.
+Ele funciona como uma ferramenta de apoio à mudança de hábito, porque ajuda o usuário a:
+* registrar refeições com menos esforço
+* entender melhor o que está consumindo
+* acompanhar metas de forma visual
+* receber orientação mais inteligente
+* manter consistência ao longo do tempo
+Ou seja, o produto não vende só informação nutricional.
+Ele vende clareza, praticidade e constância.
+________________
+
+
+3. Problema que o aplicativo resolve
+O app resolve dores muito comuns de quem tenta melhorar alimentação e não consegue sustentar isso no longo prazo.
+Principais problemas que ele ataca:
+* o registro manual de refeições é cansativo
+* a maioria das pessoas perde a consistência depois dos primeiros dias
+* muitos aplicativos exigem esforço demais para usar
+* o usuário não sabe exatamente o que comeu no dia
+* falta feedback rápido e claro
+* falta motivação para continuar
+* o processo vira obrigação e não rotina
+A maior dor não é falta de informação.
+A maior dor é falta de constância.
+Esse é o centro estratégico do NutriTrack Pro.
+________________
+
+
+4. Proposta central de valor
+A proposta central do produto é:
+Facilitar o acompanhamento alimentar e aumentar a constância do usuário por meio de inteligência artificial, automação e uma experiência mais prática.
+Em linguagem de mercado, a promessa principal pode ser resumida assim:
+O jeito mais simples e inteligente de acompanhar sua alimentação.
+Essa é a linha que melhor traduz o produto para comunicação.
+________________
+
+
+5. Posicionamento do produto
+O NutriTrack Pro deve ser posicionado como um aplicativo premium de acompanhamento alimentar com inteligência artificial, voltado para pessoas que querem cuidar melhor da alimentação sem depender de um processo chato, burocrático ou técnico demais.
+Ele se posiciona entre quatro territórios:
+Nutrição
+Ajuda o usuário a registrar refeições, acompanhar metas e entender consumo.
+Tecnologia
+Usa inteligência artificial para facilitar análise e reduzir trabalho manual.
+Hábitos
+Ajuda o usuário a criar consistência.
+Experiência premium
+Tem visual moderno, integração com ecossistema Apple, recursos sociais e elementos de engajamento.
+________________
+
+
+6. O que o app não é
+Esse ponto é importante para não comunicar errado.
+Com base no material atual, o NutriTrack Pro não deve ser vendido como:
+* ferramenta clínica para nutricionistas gerirem pacientes
+* sistema médico
+* prontuário
+* substituto de atendimento profissional individual
+* app de treino
+* plataforma de prescrição nutricional profissional
+* rede social de saúde
+Ele é, antes de tudo, um app para o consumidor final, com possibilidade de distribuição por profissionais e criadoras de conteúdo.
+________________
+
+
+7. Público-alvo principal
+Público principal
+Pessoas entre 25 e 45 anos que:
+* já tentaram melhorar a alimentação antes
+* já conhecem ou já usaram apps de dieta, nutrição ou fitness
+* querem emagrecer, manter peso ou comer melhor
+* valorizam praticidade
+* gostam de tecnologia
+* querem uma experiência mais moderna e menos manual
+* seguem nutricionistas, personal trainers e criadoras de conteúdo de saúde
+Público secundário
+Usuários que entram por influência de:
+* nutricionistas
+* personal trainers
+* criadoras de conteúdo de hábitos saudáveis
+* microinfluenciadoras de saúde e bem-estar
+* perfis de rotina saudável
+________________
+
+
+8. Estratégia correta de entrada no mercado
+Com o cenário atual, o caminho mais inteligente não é depender de grandes influenciadores.
+O modelo mais adequado para o NutriTrack Pro neste lançamento é:
+distribuição por credibilidade
+Ou seja, crescer através de:
+* nutricionistas
+* personal trainers
+* criadoras de conteúdo menores
+* produtoras de conteúdo UGC
+* perfis com audiência menor, mas mais confiável
+Isso é mais coerente com:
+* orçamento disponível
+* prazo de 30 dias
+* capacidade operacional do time
+* perfil do produto
+* meta de 300 a 500 usuários
+________________
+
+
+9. Diferenciais competitivos
+Os diferenciais mais fortes do app são:
+1. Análise de refeições com inteligência artificial
+O usuário pode registrar alimento por foto ou texto e receber uma estimativa nutricional.
+2. Menor atrito no uso
+O app tenta reduzir o esforço do registro manual.
+3. Acompanhamento mais inteligente
+Existe uma camada de apoio e feedback, inclusive com coach nutricional por IA.
+4. Progresso visível
+Dashboard, gráficos, metas e controle de água aumentam percepção de evolução.
+5. Gamificação
+Conquistas, streak, alertas e ranking ajudam a retenção.
+6. Social
+Amigos, comparativo e ranking aumentam engajamento.
+7. Integração com Apple Health
+Isso reforça a percepção de produto premium e robusto.
+________________
+
+
+10. Principais funcionalidades
+O app inclui:
+* registro alimentar por foto
+* registro alimentar por texto
+* busca manual de alimentos
+* dashboard diário
+* acompanhamento de calorias
+* acompanhamento de macros
+* controle de água
+* diário alimentar
+* gráficos de progresso
+* registro de peso
+* reflexões semanais
+* coach nutricional com IA
+* conquistas e gamificação
+* amigos e ranking
+* notificações inteligentes
+* atalhos com Siri
+* widget
+* planos por assinatura
+________________
+
+
+11. Estrutura de monetização
+O modelo do produto é recorrente, com planos do tipo:
+* gratuito
+* intermediário
+* premium
+A lógica da monetização está bem montada porque o produto já nasce com:
+* entrada gratuita
+* experiência premium bloqueada
+* possibilidade de teste
+* aumento de valor percebido conforme uso
+No lançamento, o foco não deve ser maximizar receita no primeiro dia.
+O foco deve ser:
+* colocar usuários qualificados para dentro
+* validar ativação
+* validar retenção
+* entender quais perfis entram e permanecem
+________________
+
+
+12. Métrica principal do lançamento
+A principal métrica não deve ser apenas downloads.
+Download sozinho não significa nada se a pessoa baixar e nunca usar.
+A métrica mais importante para esse tipo de produto é:
+usuárias ativas que registram refeições com frequência
+Isso mede uso real e validação do produto.
+________________
+
+
+13. Metas realistas para o lançamento de 30 dias
+Com o cenário que você descreveu, as metas realistas são:
+Usuárias adquiridas: 300 a 500
+Usuárias ativadas: 120 a 250
+Parceiras embaixadoras ativas: 8 a 20
+Taxa de resposta da prospecção: 20% a 30%
+Taxa de aceite para parceria: 5% a 10% sobre o total prospectado
+Capacidade total de prospecção: cerca de 300 contatos no mês
+Orçamento disponível: até US$ 1.000
+Esses números são realistas dentro do prazo e da estrutura de operação informados.
+________________
+
+
+14. Estrutura do lançamento em 30 dias
+Como o prazo total é de 30 dias, o lançamento precisa funcionar como uma operação comprimida.
+Fase 1 — Preparação estratégica (dias 1 a 7)
+Objetivo: organizar a base.
+Nessa fase, é preciso:
+* definir a mensagem principal do app
+* fechar os argumentos de venda
+* organizar a página de espera ou página do app
+* preparar material para embaixadoras
+* criar lista inicial de prospecção
+* estruturar rastreamento dos links e códigos
+* alinhar o processo comercial e operacional
+Fase 2 — Captação e fechamento de embaixadoras (dias 8 a 20)
+Objetivo: recrutar e ativar parceiras.
+Nessa fase:
+* prospectar até 10 perfis por dia
+* iniciar abordagem
+* fazer follow-up
+* apresentar o programa
+* fechar parcerias
+* entregar materiais
+* liberar acesso ao app
+* orientar produção de conteúdo
+Fase 3 — Aquecimento e preparação do lançamento (dias 21 a 27)
+Objetivo: gerar expectativa.
+Nessa fase:
+* embaixadoras começam a testar o app
+* entram conteúdos de bastidor
+* entram conteúdos de primeiras impressões
+* a marca reforça narrativa
+* a página prepara captação final
+* conteúdos são alinhados para a janela coordenada
+Fase 4 — Lançamento coordenado (dias 28 a 30)
+Objetivo: concentrar impacto.
+Nessa fase:
+* todas as embaixadoras publicam em uma mesma janela
+* entram stories, reels, conteúdos explicativos e prova social
+* a marca repostar tudo
+* o time acompanha links, códigos e performance
+* o foco é gerar pico coordenado, não ação espalhada
+________________
+
+
+15. Metas operacionais por fase
+Dias 1 a 7
+* mensagem central aprovada
+* material de embaixadoras pronto
+* lista inicial de 70 contatos montada
+* rastreamento mínimo funcionando
+Dias 8 a 20
+* 130 contatos adicionais prospectados
+* 25 a 40 respostas
+* 10 a 20 conversas qualificadas
+* 8 a 20 parcerias ativas
+Dias 21 a 27
+* 100% das embaixadoras com acesso e orientação
+* conteúdos preparados
+* calendário da janela coordenada fechado
+Dias 28 a 30
+* publicação simultânea ou concentrada
+* repost da marca
+* monitoramento de volume de entrada
+* primeiro diagnóstico de ativação
+________________
+
+
+16. O que vale priorizar neste lançamento
+Com 30 dias e até US$ 1.000, a prioridade deve ser:
+* credibilidade
+* distribuição por profissionais
+* creators pequenos
+* conteúdo prático
+* prova social
+* rastreamento mínimo
+* foco em uso real
+________________
+
+
+17. O que não vale priorizar agora
+Neste momento, não vale gastar energia com:
+* grandes influenciadoras
+* assessoria de imprensa
+* blog
+* SEO
+* campanhas grandes de mídia paga
+* branding complexo
+* ações muito longas de aquecimento
+* tentar falar com “todo mundo”
+O prazo é curto.
+A operação precisa ser objetiva.
+________________
+
+
+18. Principal risco do projeto
+O principal risco não é adquirir usuárias.
+O principal risco é:
+a pessoa baixar e não usar com frequência
+Por isso, a qualidade da entrada importa mais do que volume vazio.
+Em outras palavras:
+É melhor entrar com 300 usuárias com aderência real do que 1.000 downloads frios que não geram retenção.
+________________
+
+
+19. Critério de sucesso do lançamento
+Esse lançamento deve ser considerado bem-sucedido se vocês conseguirem:
+* validar o canal de embaixadoras
+* entender quem converte melhor
+* gerar 300 a 500 usuárias
+* ativar bem a base inicial
+* encontrar os perfis de parceria mais fortes
+* criar prova social real
+* construir base para escalar depois
+O objetivo agora não é “explodir”.
+O objetivo é validar um modelo de aquisição replicável.
+________________
+
+
+20. Conclusão estratégica
+O NutriTrack Pro tem potencial porque combina:
+* apelo tecnológico
+* benefício prático
+* experiência premium
+* boa narrativa de marketing
+* possibilidade de distribuição por credibilidade
+Dentro de 30 dias, a estratégia correta não é fazer um lançamento gigante.
+A estratégia correta é fazer um lançamento coordenado, enxuto, com foco em profissionais da saúde, criadoras menores e prova social, para validar o canal e construir a primeira base consistente de usuárias.
